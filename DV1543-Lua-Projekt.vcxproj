@@ -21,6 +21,9 @@
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\LuaState.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Blob.lua" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{E0E01062-7CDA-4708-BAD4-46E67165EEF5}</ProjectGuid>
@@ -57,7 +60,7 @@
     <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Build\$(Configuration)\temp\</IntDir>
     <IncludePath>$(SolutionDir)Library\SFML-2.4.2\include;$(SolutionDir)Library\lua-5.3.4\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Library\SFML-2.4.2\lib;$(SolutionDir)Library\lua-5.3.4\lib\$(Configuration)\$(Platform);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Library\SFML-2.4.2\lib;$(SolutionDir)Library\lua-5.3.4\lib\Release\$(Platform);$(LibraryPath)</LibraryPath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
@@ -66,7 +69,7 @@
     <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Build\$(Configuration)\temp\</IntDir>
     <IncludePath>$(SolutionDir)Library\SFML-2.4.2\include;$(SolutionDir)Library\lua-5.3.4\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Library\SFML-2.4.2\lib;$(SolutionDir)Library\lua-5.3.4\lib\$(Configuration)\$(Platform);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Library\SFML-2.4.2\lib;$(SolutionDir)Library\lua-5.3.4\lib\Release\$(Platform);$(LibraryPath)</LibraryPath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>

@@ -12,7 +12,7 @@ Engine::Engine()
 
 	window.setView(camera);
 
-	blobs.push_back({sf::Color::Red, 50});
+	blobs.push_back({sf::Color::Red, 50, "Assets/Blob.lua"});
 }
 
 

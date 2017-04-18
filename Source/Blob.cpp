@@ -2,10 +2,12 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 
-Blob::Blob(sf::Color color, float radius)
+Blob::Blob(sf::Color color, float radius, const char * luaPath)
 {
 	shape.setFillColor(color);
 	setRadius(radius);
+	lua.loadOpenLibs();
+	lua.dofile(luaPath);
 }
 
 Blob::~Blob()
@@ -14,6 +16,9 @@ Blob::~Blob()
 
 void Blob::update(sf::Time & delta)
 {
+	lua.getGlobal("update");
+	lua.push(delta.asSeconds());
+	lua.call(1, 0);
 }
 
 bool Blob::checkCollision(Blob & other)
