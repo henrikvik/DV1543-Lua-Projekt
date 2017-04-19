@@ -3,13 +3,23 @@
 
 LuaState::LuaState()
 {
+	owner = true;
 	state = luaL_newstate();
+}
+
+LuaState::LuaState(lua_State * l)
+{
+	owner = false;
+	state = l;
 }
 
 
 LuaState::~LuaState()
 {
-	lua_close(state);
+	if (owner)
+	{
+		lua_close(state);
+	}
 }
 
 void LuaState::loadOpenLibs()
@@ -39,13 +49,12 @@ void LuaState::setGlobal(const char * name)
 
 void LuaState::push(CppFunction function)
 {
-	lua_CFunction wrapper = [](lua_State * l) -> int {
-		LuaState * L = static_cast<LuaState*>(lua_touserdata(l, lua_upvalueindex(1)));
-		CppFunction fun = static_cast<CppFunction>(lua_touserdata(l, lua_upvalueindex(2)));
+	static lua_CFunction wrapper = [&](lua_State * l) -> int {
+		LuaState L(l);		
+		CppFunction fun = reinterpret_cast<CppFunction>(lua_touserdata(l, lua_upvalueindex(1)));
 		return fun(*L);
 	};
 
-	lua_pushlightuserdata(state, this);
 	lua_pushlightuserdata(state, function);
 	lua_pushcclosure(state, wrapper, 2);
 }
