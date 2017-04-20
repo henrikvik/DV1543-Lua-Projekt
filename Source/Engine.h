@@ -3,7 +3,7 @@
 #include <SFML\System\Clock.hpp>
 #include "Blob.h"
 #include "vector"
-#include <memory>
+
 
 class Engine : public sf::Drawable
 {
@@ -19,7 +19,7 @@ private:
 
 	bool isRunning;
 
-	std::vector<std::unique_ptr<Blob>> blobs;
+	std::vector<Blob> blobs;
 
 	void pollEvents();
 	void update(sf::Time & delta);

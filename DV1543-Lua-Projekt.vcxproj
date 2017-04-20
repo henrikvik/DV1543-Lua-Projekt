@@ -11,24 +11,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\AIBlob.cpp" />
     <ClCompile Include="Source\Blob.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\LuaState.cpp" />
     <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\PlayerBlob.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\AIBlob.h" />
     <ClInclude Include="Source\Blob.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\LuaState.h" />
-    <ClInclude Include="Source\PlayerBlob.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\AI.lua" />
     <None Include="Assets\Blob.lua" />
-    <None Include="Assets\Vector.lua" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

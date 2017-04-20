@@ -3,90 +3,82 @@
 
 LuaState::LuaState()
 {
+	owner = true;
 	state = luaL_newstate();
 }
 
+LuaState::LuaState(lua_State * l)
+{
+	owner = false;
+	state = l;
+}
+
+
 LuaState::~LuaState()
 {
-	lua_close(state);
+	if (owner)
+	{
+		lua_close(state);
+	}
 }
 
-LuaState& LuaState::loadOpenLibs()
+void LuaState::loadOpenLibs()
 {
 	luaL_openlibs(state);
-	return *this;
 }
 
-LuaState& LuaState::dostring(const char * str)
+void LuaState::dostring(const char * str)
 {
 	assert_pcall(luaL_dostring(state, str), "dostring failed");
-	return *this;
 }
 
-LuaState& LuaState::dofile(const char * filePath)
+void LuaState::dofile(const char * filePath)
 {
 	assert_pcall(luaL_dofile(state, filePath), "dofile failed");
-	return *this;
 }
 
-LuaState& LuaState::get(const char * name)
+void LuaState::getGlobal(const char * name)
 {
 	lua_getglobal(state, name);
-	return *this;
 }
 
-LuaState& LuaState::set(const char * name)
+void LuaState::setGlobal(const char * name)
 {
 	lua_setglobal(state, name);
-	return *this;
 }
 
-LuaState& LuaState::push(CppFunction function)
+void LuaState::push(CppFunction function)
 {
-	lua_CFunction wrapper = [](lua_State * l) -> int {
-		LuaState  * L = reinterpret_cast<LuaState*>(lua_touserdata(l, lua_upvalueindex(1)));
-		CppFunction fun = reinterpret_cast<CppFunction>(lua_touserdata(l, lua_upvalueindex(2)));
+	static lua_CFunction wrapper = [&](lua_State * l) -> int {
+		LuaState L(l);		
+		CppFunction fun = reinterpret_cast<CppFunction>(lua_touserdata(l, lua_upvalueindex(1)));
 		return fun(*L);
 	};
 
-	lua_pushlightuserdata(state, this);
 	lua_pushlightuserdata(state, function);
 	lua_pushcclosure(state, wrapper, 2);
-	return *this;
 }
 
-LuaState& LuaState::push(const char * str)
+void LuaState::push(const char * str)
 {
 	lua_pushstring(state, str);
-	return *this;
 }
 
-LuaState& LuaState::push(float number)
+void LuaState::push(float number)
 {
 	lua_pushnumber(state, number);
-	return *this;
 }
 
-LuaState& LuaState::pop(const char *& str)
+void LuaState::pop(const char *& str)
 {
 	assert(lua_isstring(state, -1), "top of stack is not string");
 	str = lua_tostring(state, -1);
 	lua_pop(state, 1);
-	return *this;
 }
 
-LuaState& LuaState::pop(float & number)
-{
-	assert(lua_isnumber(state, -1), "top of stack is not a number");
-	number = lua_tonumber(state, -1);
-	lua_pop(state, 1);
-	return *this;
-}
-
-LuaState& LuaState::call(int argc, int retc)
+void LuaState::call(int argc, int retc)
 {
 	assert_pcall(lua_pcall(state, argc, retc, NULL), "pcall failed");
-	return *this;
 }
 
 void LuaState::assert(bool condition, const char * message)
