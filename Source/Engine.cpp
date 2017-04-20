@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include <SFML\Window\Event.hpp>
-
+#include "AIBlob.h"
+#include "PlayerBlob.h"
 
 Engine::Engine()
 {
@@ -12,7 +13,8 @@ Engine::Engine()
 
 	window.setView(camera);
 
-	blobs.push_back({sf::Color::Red, 50, "Assets/Blob.lua"});
+	blobs.push_back(std::make_unique<PlayerBlob>(sf::Color::Red, 50));
+	blobs.push_back(std::make_unique<AIBlob>(sf::Color::Blue, 50, "Assets/AI.lua"));
 }
 
 
@@ -29,6 +31,7 @@ void Engine::run()
 	{
 		pollEvents();
 		update(clock.restart());
+
 		window.clear();
 		window.draw(*this);
 		window.display();
@@ -55,19 +58,20 @@ void Engine::update(sf::Time & delta)
 	size_t size = blobs.size();
 	for (size_t i = 0; i < size; i++)
 	{
-		blobs[i].update(delta);
+		blobs[i]->update(delta);
 		for (size_t j = i + 1; j < size; j++)
 		{ 
-			if (blobs[i].checkCollision(blobs[j]))
-			{	blobs[i].onCollision(blobs[j]);  }
+			if (blobs[i]->checkCollision(*blobs[j]))
+			{	blobs[i]->onCollision(*blobs[j]);  }
 		}
 	}
 }
 
 void Engine::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	for (const Blob& blob : blobs)
+	size_t size = blobs.size();
+	for (size_t i = 0; i < size; i++)
 	{
-		target.draw(blob, states);
+		target.draw(*blobs[i], states);
 	}
 }
