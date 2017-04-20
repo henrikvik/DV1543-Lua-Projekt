@@ -2,23 +2,14 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 
-Blob::Blob(sf::Color color, float radius, const char * luaPath)
+Blob::Blob(sf::Color color, float radius)
 {
 	shape.setFillColor(color);
 	setRadius(radius);
-	lua.loadOpenLibs();
-	lua.dofile(luaPath);
 }
 
 Blob::~Blob()
 {
-}
-
-void Blob::update(sf::Time & delta)
-{
-	lua.getGlobal("update");
-	lua.push(delta.asSeconds());
-	lua.call(1, 0);
 }
 
 bool Blob::checkCollision(Blob & other)
@@ -29,10 +20,6 @@ bool Blob::checkCollision(Blob & other)
 		pow(position.y - other.position.y, 2));
 
 	return distance < minDist;
-}
-
-void Blob::onCollision(Blob & other)
-{
 }
 
 void Blob::setRadius(float radius)
@@ -49,6 +36,11 @@ void Blob::setPosition(sf::Vector2f & position)
 		position.x - radius, 
 		position.y - radius
 	});
+}
+
+void Blob::move(sf::Vector2f delta)
+{
+	setPosition(position + delta);
 }
 
 float Blob::getRadius()

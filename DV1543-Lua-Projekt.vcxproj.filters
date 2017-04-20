@@ -27,6 +27,12 @@
     <ClCompile Include="Source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\AIBlob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerBlob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Blob.h">
@@ -38,8 +44,16 @@
     <ClInclude Include="Source\LuaState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\AIBlob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerBlob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Blob.lua" />
+    <None Include="Assets\Vector.lua" />
+    <None Include="Assets\AI.lua" />
   </ItemGroup>
 </Project>
