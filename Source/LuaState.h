@@ -29,8 +29,8 @@ public:
 
 	LuaState& call(int argc, int retc);
 
-	template<class Class>
-	LuaState& push(Class * instance, CFunction<Class> function);
+	template<typename T>
+	LuaState& push(CFunction<T> function, T * argument);
 
 	template<typename T, typename... Ts>
 	LuaState& push(T first, Ts ... args);
@@ -45,18 +45,18 @@ private:
 	void assert_pcall(int err, const char * message);
 };
 
-template<class Class>
-inline LuaState & LuaState::push(Class * instance, CFunction<Class> function)
+template<typename T>
+inline LuaState & LuaState::push(CFunction<T> function, T * argument)
 {
 	lua_CFunction wrapper = [](lua_State * l) -> int {
-		LuaState       * luaState = static_cast<LuaState*>(lua_touserdata(l, lua_upvalueindex(1)));
-		Class          * instance = static_cast<Class*>(lua_touserdata(l, lua_upvalueindex(2)));
-		CFunction<Class> function = static_cast<CFunction<Class>>(lua_touserdata(l, lua_upvalueindex(3)));
+		LuaState   * luaState = static_cast<LuaState*>(lua_touserdata(l, lua_upvalueindex(1)));
+		T          * argument = static_cast<T*>(lua_touserdata(l, lua_upvalueindex(2)));
+		CFunction<T> function = static_cast<CFunction<T>>(lua_touserdata(l, lua_upvalueindex(3)));
 		return function(luaState, instance);
 	};
 
 	lua_pushlightuserdata(state, this);
-	lua_pushlightuserdata(state, instance);
+	lua_pushlightuserdata(state, argument);
 	lua_pushlightuserdata(state, function);
 	lua_pushcclosure(state, wrapper, 3);
 
