@@ -17,6 +17,7 @@ public:
 	LuaState& loadOpenLibs();	
 	LuaState& dostring(const char * str);
 	LuaState& dofile(const char * filePath);
+
 	LuaState& get(const char * name);
 	LuaState& set(const char * name);
 
