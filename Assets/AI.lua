@@ -1,6 +1,6 @@
-dofile("Blob.lua")
+dofile("Assets/Blob.lua")
 
-this = Blob:New()
+me = Blob:New()
 enemies = {}
 foods = {}
 
@@ -13,8 +13,11 @@ function update(delta)
 	end
 ]]--
 
+	print("update");
+--[[
 	local dir = enemies[1].position - this.position;
 	dir:Normalize();
 
 	position = position + dir * delta
+]]--
 end

@@ -94,7 +94,7 @@ void LuaState::assert(bool condition, const char * message)
 	if (!condition)
 	{
 		printf("%s\n", message);
-		exit(-2);
+		throw std::exception(message);
 	}
 }
 
@@ -104,7 +104,6 @@ void LuaState::assert_pcall(int pcall, const char * message)
 	{
 		const char * error; pop(error);
 		printf("%s: %s\n", message, error);
-		system("pause");
-		exit(-2);
+		throw std::exception(message);
 	}
 }

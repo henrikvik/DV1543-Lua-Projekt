@@ -16,10 +16,10 @@ void AIBlob::update(sf::Time & delta)
 
 	lua.get("update").push(delta.asSeconds()).call(1, 0);
 
-	sf::Vector2f position;
-	lua.get("x").pop(position.x);
-	lua.get("y").pop(position.y);
-	setPosition(position);
+	//sf::Vector2f position;
+	//lua.get("me.x").pop(position.x);
+	//lua.get("me.y").pop(position.y);
+	//setPosition(position);
 }
 
 void AIBlob::onCollision(Blob & other)

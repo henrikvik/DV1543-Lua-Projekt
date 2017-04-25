@@ -1,4 +1,4 @@
-dofile("Vector.lua");
+dofile("Assets/Vector.lua");
 
 Blob = { radius = 0, position = Vector:New() }
 
@@ -14,6 +14,6 @@ end
 --## Member Function ##--
 
 function Blob:Move(x, y)
-	self.position.x += x;
-	self.position.y += y;
+	self.position.x = self.position.x + x;
+	self.position.y = self.position.y + y;
 end
