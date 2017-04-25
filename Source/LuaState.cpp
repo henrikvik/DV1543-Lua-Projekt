@@ -41,12 +41,12 @@ LuaState& LuaState::set(const char * name)
 	return *this;
 }
 
-LuaState& LuaState::push(CppFunction function)
+LuaState& LuaState::push(CFunction<> function)
 {
 	lua_CFunction wrapper = [](lua_State * l) -> int {
-		LuaState  * L = reinterpret_cast<LuaState*>(lua_touserdata(l, lua_upvalueindex(1)));
-		CppFunction fun = reinterpret_cast<CppFunction>(lua_touserdata(l, lua_upvalueindex(2)));
-		return fun(*L);
+		LuaState  * luaState = static_cast<LuaState*>(lua_touserdata(l, lua_upvalueindex(1)));
+		CFunction<> function = static_cast<CFunction<>>(lua_touserdata(l, lua_upvalueindex(2)));
+		return function(luaState);
 	};
 
 	lua_pushlightuserdata(state, this);
