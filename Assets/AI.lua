@@ -1,6 +1,6 @@
 dofile("Assets/Blob.lua")
 
-me = Blob:New()
+this = Blob:New()
 enemies = {}
 foods = {}
 

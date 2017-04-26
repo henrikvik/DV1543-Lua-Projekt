@@ -12,14 +12,22 @@ AIBlob::~AIBlob()
 
 void AIBlob::update(sf::Time & delta)
 {
-	lua.push(getRadius()).set("radius");
+	sf::Vector2f position;
 
-	lua.get("update").push(delta.asSeconds()).call(1, 0);
+	lua.getGlobal("this")
+		.push(getRadius()).setField("radius")
+	.pop();
 
-	//sf::Vector2f position;
-	//lua.get("me.x").pop(position.x);
-	//lua.get("me.y").pop(position.y);
-	//setPosition(position);
+	lua.getGlobal("update")
+		.push(delta.asSeconds())
+		.call(1, 0);
+
+	lua.getGlobal("this")
+		.getField("x").pop(position.x)
+		.getField("y").pop(position.y)
+	.pop();
+
+	setPosition(position);
 }
 
 void AIBlob::onCollision(Blob & other)

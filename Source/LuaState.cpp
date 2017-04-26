@@ -29,15 +29,27 @@ LuaState& LuaState::dofile(const char * filePath)
 	return *this;
 }
 
-LuaState& LuaState::get(const char * name)
+LuaState& LuaState::getGlobal(const char * name)
 {
 	lua_getglobal(state, name);
 	return *this;
 }
 
-LuaState& LuaState::set(const char * name)
+LuaState& LuaState::setGlobal(const char * name)
 {
 	lua_setglobal(state, name);
+	return *this;
+}
+
+LuaState & LuaState::getField(const char * name, int index)
+{
+	lua_getfield(state, index, name);
+	return *this;
+}
+
+LuaState & LuaState::setField(const char * name, int index)
+{
+	lua_setfield(state, index, name);
 	return *this;
 }
 
@@ -64,6 +76,12 @@ LuaState& LuaState::push(const char * str)
 LuaState& LuaState::push(float number)
 {
 	lua_pushnumber(state, number);
+	return *this;
+}
+
+LuaState & LuaState::pop()
+{
+	lua_pop(state, 1);
 	return *this;
 }
 

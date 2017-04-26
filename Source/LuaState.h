@@ -18,17 +18,15 @@ public:
 	LuaState& dostring(const char * str);
 	LuaState& dofile(const char * filePath);
 
-	LuaState& get(const char * name);
-	LuaState& set(const char * name);
+	LuaState& getGlobal(const char * name);
+	LuaState& setGlobal(const char * name);
+
+	LuaState& getField(const char * name, int index = -1);
+	LuaState& setField(const char * name, int index = -2);
 
 	LuaState& push(CFunction<> function);
 	LuaState& push(const char * str);
 	LuaState& push(float number);
-
-	LuaState& pop(const char *& str);
-	LuaState& pop(float & number);
-
-	LuaState& call(int argc, int retc);
 
 	template<typename T>
 	LuaState& push(CFunction<T> function, T * argument);
@@ -36,8 +34,18 @@ public:
 	template<typename T, typename... Ts>
 	LuaState& push(T first, Ts ... args);
 
+	LuaState& pop();
+	LuaState& pop(const char *& str);
+	LuaState& pop(float & number);
+
 	template<typename T, typename... Ts>
 	LuaState& pop(T & first, Ts &... args);
+
+	LuaState& call(int argc, int retc);
+
+
+
+
 
 private:
 	lua_State * state;
