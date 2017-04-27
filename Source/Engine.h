@@ -11,7 +11,10 @@ public:
 	Engine();
 	~Engine();
 
-	void run();
+	void start();
+
+	template<typename T, typename ... Ts>
+	void addBlob(Ts &&... args);
 
 private:
 	sf::RenderWindow window;
@@ -26,3 +29,8 @@ private:
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;
 };
 
+template<typename T, typename ...Ts>
+void Engine::addBlob(Ts && ...args)
+{
+	blobs.push_back(std::make_unique<T>(std::forward<Ts>(args)...));
+}

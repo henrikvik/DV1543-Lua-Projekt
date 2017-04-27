@@ -12,9 +12,6 @@ Engine::Engine()
 	camera.setSize({ 800, 600 });
 
 	window.setView(camera);
-
-	blobs.push_back(std::make_unique<PlayerBlob>(sf::Color::Red, 50));
-	blobs.push_back(std::make_unique<AIBlob>(sf::Color::Blue, 50, "Assets/Lua/AI.lua"));
 }
 
 
@@ -23,7 +20,7 @@ Engine::~Engine()
 }
 
 
-void Engine::run()
+void Engine::start()
 {
 	sf::Clock clock;
 
@@ -59,6 +56,7 @@ void Engine::update(sf::Time & delta)
 	for (size_t i = 0; i < size; i++)
 	{
 		blobs[i]->update(delta);
+
 		for (size_t j = i + 1; j < size; j++)
 		{ 
 			if (blobs[i]->checkCollision(*blobs[j]))

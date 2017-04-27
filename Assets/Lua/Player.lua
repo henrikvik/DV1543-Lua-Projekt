@@ -1,9 +1,8 @@
 dofile("Assets/Lua/Blob.lua")
 
 this = Blob:New()
-enemies = {}
-foods = {}
+inputDir = Vector:New()
 
 function update(delta)
-	this:Move({ x = delta, y = delta });
+	this:Move(inputDir * delta * 50);
 end
