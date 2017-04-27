@@ -23,8 +23,10 @@ void AIBlob::update(sf::Time & delta)
 		.call(1, 0);
 
 	lua.getGlobal("this")
-		.getField("x").pop(position.x)
-		.getField("y").pop(position.y)
+		.getField("position")
+			.getField("x").pop(position.x)
+			.getField("y").pop(position.y)
+		.pop()
 	.pop();
 
 	setPosition(position);

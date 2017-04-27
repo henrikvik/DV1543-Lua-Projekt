@@ -14,7 +14,7 @@ Engine::Engine()
 	window.setView(camera);
 
 	blobs.push_back(std::make_unique<PlayerBlob>(sf::Color::Red, 50));
-	blobs.push_back(std::make_unique<AIBlob>(sf::Color::Blue, 50, "Assets/AI.lua"));
+	blobs.push_back(std::make_unique<AIBlob>(sf::Color::Blue, 50, "Assets/Lua/AI.lua"));
 }
 
 

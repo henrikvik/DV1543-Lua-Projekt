@@ -1,3 +1,5 @@
+dofile("Assets/Lua/Utility.lua")
+
 Vector = { x = 0, y = 0 }
 
 --## Constructor ##--
@@ -28,34 +30,25 @@ end
 --## Meta Functions ##--
 
 function Vector.__sub(a, b)
-	if (getmetatable(a) == Vector) then
-		if (getmetatable(b) == Vector) then
-			return Vector:New({ 
-				x = a.x - b.x,
-				y = a.y - b.y
-			})
-		end
+	if isVector(a) and isVector(b) then
+		return Vector:New({ x = a.x - b.x, y = a.y - b.y })
 	else
-		error("behaviour not defined Vector.__sub")
+		error("Behaviour not defined Vector.__sub")
 	end
 end
 
 function Vector.__mul(a, b)
-	if (getmetatable(a) == Vector) then
-		if (type(b) == "number") then
-			return Vector:New({ 
-				x = a.x * b,
-				y = a.y * b
-			})
-		end
-	elseif (type(a) == "number") then
-		if (getmetatable(b) == Vector) then
-			return Vector:New({ 
-				x = a * b.x,
-				y = a * b.y
-			})
-		end
+	if isVector(a) and isNumber(b) then
+		return Vector:New({ x = a.x * b, y = a.y * b })
+	elseif isNumber(a) and isVector(b) then
+		return Vector:New({ x = b.x * a, y =  b.y * a })
 	else
-		error("behaviour not defined Vector.__mul")
+		error("Behaviour not defined Vector.__mul")
 	end
+end
+
+--## Utility Functions ##--
+
+function isVector(a)
+	return getmetatable(a) == Vector
 end

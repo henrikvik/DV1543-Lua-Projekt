@@ -1,4 +1,4 @@
-dofile("Assets/Vector.lua");
+dofile("Assets/Lua/Vector.lua");
 
 Blob = { radius = 0, position = Vector:New() }
 

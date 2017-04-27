@@ -26,27 +26,28 @@
     <ClInclude Include="Source\PlayerBlob.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\AI.lua" />
-    <None Include="Assets\Blob.lua" />
-    <None Include="Assets\Vector.lua" />
+    <None Include="Assets\Lua\AI.lua" />
+    <None Include="Assets\Lua\Blob.lua" />
+    <None Include="Assets\Lua\Utility.lua" />
+    <None Include="Assets\Lua\Vector.lua" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{E0E01062-7CDA-4708-BAD4-46E67165EEF5}</ProjectGuid>
     <RootNamespace>DV1543LuaProjekt</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

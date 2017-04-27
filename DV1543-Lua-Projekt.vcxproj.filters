@@ -52,8 +52,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Blob.lua" />
-    <None Include="Assets\Vector.lua" />
-    <None Include="Assets\AI.lua" />
+    <None Include="Assets\Lua\AI.lua" />
+    <None Include="Assets\Lua\Blob.lua" />
+    <None Include="Assets\Lua\Utility.lua" />
+    <None Include="Assets\Lua\Vector.lua" />
   </ItemGroup>
 </Project>
