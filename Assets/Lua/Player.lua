@@ -1,11 +1,17 @@
-dofile("Assets/Lua/Blob.lua")
+dofile("Assets/Lua/Blob.lua");
 
-this = Blob:New()
+this = Blob:New();
+moveSpeed = 10;
 
 function update(delta)
 	
-	this.radius = this.radius + delta;
-	this:Move(delta, 0);
+	local x, y = getInputDirection();
+
+	this:Move(
+		x * moveSpeed * delta,
+		y * moveSpeed * delta
+	);
+
 end
 
 function onCollision(otherRadius, distance)

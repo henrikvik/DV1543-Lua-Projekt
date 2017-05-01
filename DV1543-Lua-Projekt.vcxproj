@@ -24,6 +24,7 @@
   <ItemGroup>
     <None Include="Assets\Lua\AI.lua" />
     <None Include="Assets\Lua\Blob.lua" />
+    <None Include="Assets\Lua\Player.lua" />
     <None Include="Assets\Lua\Utility.lua" />
     <None Include="Assets\Lua\Vector.lua" />
   </ItemGroup>

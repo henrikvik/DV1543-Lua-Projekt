@@ -18,7 +18,7 @@ Engine::~Engine()
 }
 
 
-void Engine::run()
+void Engine::start()
 {
 	sf::Clock clock;
 
@@ -31,6 +31,15 @@ void Engine::run()
 		window.draw(*this);
 		window.display();
 	}
+}
+
+void Engine::addBlob(std::unique_ptr<Blob>& blob)
+{
+	LuaState & lua = blob->getLuaState();
+	lua.push(Engine::lua_getInputDirection, &lua)
+		.setGlobal("getInputDirection");
+
+	blobs.push_back(std::move(blob));
 }
 
 
@@ -55,10 +64,7 @@ void Engine::update(sf::Time & delta)
 	{
 		blobs[i]->update(delta);
 		for (size_t j = i + 1; j < size; j++)
-		{ 
-			if (blobs[i]->checkCollision(*blobs[j]))
-			{	blobs[i]->onCollision(*blobs[j]);  }
-		}
+			blobs[i]->checkCollision(*blobs[j]);
 	}
 }
 
@@ -69,4 +75,17 @@ void Engine::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	{
 		target.draw(*blobs[i], states);
 	}
+}
+
+int Engine::lua_getInputDirection(LuaState * lua)
+{
+	sf::Vector2f inputDir;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) inputDir.y--;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) inputDir.y++;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) inputDir.x--;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) inputDir.x++;
+
+	lua->push(inputDir.x).push(inputDir.y);
+	return 2;
 }

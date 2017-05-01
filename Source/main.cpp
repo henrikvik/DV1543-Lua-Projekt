@@ -1,45 +1,25 @@
 #include "Engine.h"
 #include <Windows.h>
-#include <iostream>
 
 #include "LuaState.h"
 
-class Class
-{
-public:
-	int i = 0;
-	int fun()
-	{
-		printf("Hello World %d\n", i++);
-		return 0;
-	}
-};
-
-
-int fun(Class * c)
-{
-	printf("Hello World %d\n", c->i++);
-	return 0;
-}
 
 
 void main()
 {
-	//Engine game;
-	//game.run();
+	Engine game;
 
-	LuaState lua;
-	lua.loadOpenLibs();
+	game.addBlob(std::make_unique<Blob>( 
+		sf::Color::Red, 
+		sf::Vector2f(), 
+		50, 
+		"Assets/Lua/AI.lua" ));
 
-	Class c;
+	game.addBlob(std::make_unique<Blob>(
+		sf::Color::Blue,
+		sf::Vector2f(-150, 0),
+		60,
+		"Assets/Lua/Player.lua"));
 
-	lua.push<LuaState::CFunction<Class>>([] (Class * c) {
-		c->fun();
-		return 0;
-	}, &c);
-	lua.setGlobal("fun");
-	lua.dostring("fun();fun();fun();fun()");
-
-
-	system("pause");
+	game.start();
 }

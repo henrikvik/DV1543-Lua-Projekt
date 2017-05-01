@@ -7,23 +7,24 @@
 class Blob : public sf::Drawable
 {
 public:
-	Blob(LuaState & lua, sf::Color color, float radius, const char * luaScript);
+	Blob(sf::Color color, sf::Vector2f & position, float radius, const char * luaScript);
 	virtual ~Blob();
 
 	virtual void update(sf::Time & delta);
-	virtual void onCollision(Blob & other);
 
 	inline const float & getRadius();
 	inline const sf::Vector2f & getPosition();
 
-	bool checkCollision(Blob & other);
+	void checkCollision(Blob & other);
+	
+	LuaState & getLuaState();
 
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;
 private:
 	static size_t UID_BASE;
 	const size_t uid;
-	LuaState & lua;
+	LuaState lua;
 
 
 	sf::CircleShape shape;
