@@ -1,15 +1,43 @@
 #include "Blob.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 
+size_t Blob::UID_BASE = 0;
 
-Blob::Blob(sf::Color color, float radius)
+Blob::Blob(LuaState & lua, sf::Color color, float radius, const char * luaScript)
+	: uid(UID_BASE++), lua(lua)
 {
+
 	shape.setFillColor(color);
-	setRadius(radius);
+	shape.setPosition({ -radius, -radius });
 }
 
 Blob::~Blob()
 {
+}
+
+void Blob::update(sf::Time & delta)
+{
+	lua.getGlobal("update")
+		.push(delta.asSeconds())
+	.call(1, 0);
+
+	lua.getGlobal("this")
+		.getField("radius").pop(radius)
+		.getField("position")
+			.getField("x").pop(position.x)
+			.getField("y").pop(position.y)
+		.pop()
+	.pop();
+
+	shape.setPosition({
+		position.x - radius,
+		position.y - radius
+	});
+}
+
+void Blob::onCollision(Blob & other)
+{
+
 }
 
 bool Blob::checkCollision(Blob & other)
@@ -22,33 +50,12 @@ bool Blob::checkCollision(Blob & other)
 	return distance < minDist;
 }
 
-void Blob::setRadius(float radius)
-{
-	this->radius = radius;
-	shape.setRadius(radius);
-	setPosition(position);
-}
-
-void Blob::setPosition(sf::Vector2f & position)
-{
-	this->position = position;
-	shape.setPosition({
-		position.x - radius, 
-		position.y - radius
-	});
-}
-
-void Blob::move(sf::Vector2f delta)
-{
-	setPosition(position + delta);
-}
-
-float Blob::getRadius()
+inline const float & Blob::getRadius()
 {
 	return radius;
 }
 
-sf::Vector2f Blob::getPosition()
+inline const sf::Vector2f & Blob::getPosition()
 {
 	return position;
 }

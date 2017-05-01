@@ -40,7 +40,7 @@ end
 function Vector.__mul(a, b)
 	if isVector(a) and isNumber(b) then
 		return Vector:New({ x = a.x * b, y = a.y * b })
-	elseif isNumber(a) and isVector(b) then
+	elseif isVector(b) and isNumber(a) then
 		return Vector:New({ x = b.x * a, y =  b.y * a })
 	else
 		error("Behaviour not defined Vector.__mul")

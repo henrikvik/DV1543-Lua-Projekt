@@ -1,7 +1,5 @@
 #include "Engine.h"
 #include <SFML\Window\Event.hpp>
-#include "AIBlob.h"
-#include "PlayerBlob.h"
 
 Engine::Engine()
 {
@@ -12,9 +10,6 @@ Engine::Engine()
 	camera.setSize({ 800, 600 });
 
 	window.setView(camera);
-
-	blobs.push_back(std::make_unique<PlayerBlob>(sf::Color::Red, 50));
-	blobs.push_back(std::make_unique<AIBlob>(sf::Color::Blue, 50, "Assets/Lua/AI.lua"));
 }
 
 
