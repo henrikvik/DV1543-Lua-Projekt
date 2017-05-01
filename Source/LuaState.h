@@ -42,9 +42,7 @@ public:
 	template<typename ... Ts>
 	LuaState& push(CFunction<Ts...> function, Ts *... argument);
 
-
-
-	LuaState& call(int argc, int retc);
+	LuaState& call(int argc = 0, int retc = 0);
 
 private:
 	lua_State * state;
@@ -56,14 +54,14 @@ private:
 template<typename ...Ts>
 LuaState & LuaState::push(CFunction<Ts...> function, Ts * ...args)
 {
-	lua_CFunction wrapper = [](lua_State * l) -> int {
+	lua_CFunction wrapper = [](lua_State * l) -> int 
+	{
 		size_t i = 0;
-		CFunction<Ts...> function = static_cast<CFunction<Ts...>>(lua_touserdata(l, lua_upvalueindex(++i)));
-		return std::invoke(function, static_cast<Ts*>(lua_touserdata(l, lua_upvalueindex(++i)))...);
+		CFunction<Ts...> function = static_cast<CFunction<Ts...>>(lua_touserdata(l, lua_upvalueindex(++i));
+		return std::invoke(function, static_cast<Ts*>(lua_touserdata(l, lua_upvalueindex(++i))...);
 	};
 
-	push((LightUserData)function);
-	push((LightUserData)args...);
+	push((LightUserData)function, (LightUserData)args...);
 	lua_pushcclosure(state, wrapper, 1 + sizeof...(Ts));
 
 	return *this;
