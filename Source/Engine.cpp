@@ -86,6 +86,6 @@ int Engine::lua_getInputDirection(LuaState * lua)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) inputDir.x--;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) inputDir.x++;
 
-	lua->push(inputDir.x).push(inputDir.y);
+	lua->push(inputDir.x, inputDir.y);
 	return 2;
 }
