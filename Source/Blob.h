@@ -11,13 +11,14 @@ public:
 	virtual ~Blob();
 
 	virtual void update(sf::Time & delta);
-
-	inline const float & getRadius();
-	inline const sf::Vector2f & getPosition();
-
 	void checkCollision(Blob & other);
-	
-	LuaState & getLuaState();
+
+
+	LuaState * getLuaState();
+	const float & getRadius();
+	const sf::Vector2f & getPosition();
+
+	float getDistance(const sf::Vector2f & point);
 
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;

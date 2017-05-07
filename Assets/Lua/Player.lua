@@ -15,8 +15,6 @@ function update(delta)
 end
 
 function onCollision(otherRadius, distance)
-	print("SCHREEE");
-
 	if (otherRadius > this.radius) then
 		local difference = (otherRadius + this.radius) - distance;
 		this.radius = this.radius - difference;

@@ -35,9 +35,13 @@ void Engine::start()
 
 void Engine::addBlob(std::unique_ptr<Blob>& blob)
 {
-	LuaState & lua = blob->getLuaState();
-	lua.push(Engine::lua_getInputDirection, &lua)
+	LuaState * lua = blob->getLuaState();
+
+	lua->push(Engine::lua_getInputDirection, lua)
 		.setGlobal("getInputDirection");
+
+	lua->push(Engine::lua_getClosestBlob, lua, blob.get(), &blobs)
+		.setGlobal("getClosestBlob");
 
 	blobs.push_back(std::move(blob));
 }
@@ -77,6 +81,30 @@ void Engine::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	}
 }
 
+int Engine::lua_getClosestBlob(LuaState * lua, Blob * blob, std::vector<std::unique_ptr<Blob>> * blobs)
+{
+	sf::Vector2f from = blob->getPosition();
+
+	float distance = INFINITY;
+	Blob * closest = nullptr;
+
+	for (size_t i = 0, size = blobs->size(); i < size; i++)
+	{
+		float testDistance = blobs->at(i)->getDistance(from);
+		if (testDistance < distance)
+		{
+			distance = testDistance;
+			closest = blobs->at(i).get();
+		}
+	}
+
+	sf::Vector2f pos = closest->getPosition();
+	float radius = closest->getRadius();
+
+	lua->push(pos.x, pos.y, radius);
+	return 3;
+}
+
 int Engine::lua_getInputDirection(LuaState * lua)
 {
 	sf::Vector2f inputDir;
@@ -85,6 +113,13 @@ int Engine::lua_getInputDirection(LuaState * lua)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) inputDir.y++;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) inputDir.x--;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) inputDir.x++;
+
+	float length = sqrt(pow(inputDir.x, 2) + pow(inputDir.y, 2));
+
+	if (length > 0)
+	{
+		inputDir /= length;
+	}
 
 	lua->push(inputDir.x, inputDir.y);
 	return 2;

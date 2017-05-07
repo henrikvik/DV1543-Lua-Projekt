@@ -72,17 +72,23 @@ void Blob::checkCollision(Blob & other)
 	};
 }
 
-LuaState & Blob::getLuaState()
+LuaState * Blob::getLuaState()
 {
-	return lua;
+	return &lua;
 }
 
-inline const float & Blob::getRadius()
+float Blob::getDistance(const sf::Vector2f & point)
+{
+	sf::Vector2f diff = point - position;
+	return sqrt(pow(diff.x, 2) + pow(diff.y, 2));
+}
+
+const float & Blob::getRadius()
 {
 	return radius;
 }
 
-inline const sf::Vector2f & Blob::getPosition()
+const sf::Vector2f & Blob::getPosition()
 {
 	return position;
 }
