@@ -5,11 +5,14 @@
 
 
 
+
 class LuaState
 {
 public:
 	template<typename ...Args>
-	using CFunction = int(*)(LuaState *, Args *...);
+	using CFunction = int(*)(Args *...);
+
+	typedef void * LightUserData;
 
 	LuaState();
 	~LuaState();
@@ -20,54 +23,56 @@ public:
 
 	LuaState& getGlobal(const char * name);
 	LuaState& setGlobal(const char * name);
-
 	LuaState& getField(const char * name, int index = -1);
 	LuaState& setField(const char * name, int index = -2);
-
-	LuaState& push(CFunction<> function);
-	LuaState& push(const char * str);
-	LuaState& push(float number);
-
-	template<typename T>
-	LuaState& push(CFunction<T> function, T * argument);
-
-	template<typename T, typename... Ts>
-	LuaState& push(T first, Ts ... args);
+	LuaState& getIndex(int i, int index = -1);
+	LuaState& setIndex(int i, int index = -2);
 
 	LuaState& pop();
-	LuaState& pop(const char *& str);
 	LuaState& pop(float & number);
-
+	LuaState& pop(const char *& str);
 	template<typename T, typename... Ts>
 	LuaState& pop(T & first, Ts &... args);
 
-	LuaState& call(int argc, int retc);
+	LuaState& push(double) = delete;
+	LuaState& push(float number);
+	LuaState& push(const char * str);
+	LuaState& push(LightUserData ptr);
+	template<typename T, typename... Ts>
+	LuaState& push(T first, Ts ... args);
+	template<typename ... Ts>
+	LuaState& push(CFunction<Ts...> function, Ts *... argument);
 
-
-
-
+	LuaState& call(int argc = 0, int retc = 0);
 
 private:
 	lua_State * state;
 
 	void assert(bool condition, const char * message);
 	void assert_pcall(int err, const char * message);
+	void push(void) {};
 };
 
-template<typename T>
-inline LuaState & LuaState::push(CFunction<T> function, T * argument)
+template<typename ...Ts>
+LuaState & LuaState::push(CFunction<Ts...> function, Ts * ...args)
 {
-	lua_CFunction wrapper = [](lua_State * l) -> int {
-		LuaState   * luaState = static_cast<LuaState*>(lua_touserdata(l, lua_upvalueindex(1)));
-		T          * argument = static_cast<T*>(lua_touserdata(l, lua_upvalueindex(2)));
-		CFunction<T> function = static_cast<CFunction<T>>(lua_touserdata(l, lua_upvalueindex(3)));
-		return function(luaState, instance);
+	lua_CFunction wrapper = [](lua_State * l) -> int 
+	{
+		size_t i = 0;
+		CFunction<Ts...> function = static_cast<CFunction<Ts...>>(lua_touserdata(l, lua_upvalueindex(++i)));
+
+		auto getud = [&]() void*
+		{
+			return lua_touserdata(l, lua_upvalueindex(++i));
+		};
+
+		return std::invoke(function, 
+			static_cast<Ts*>(getud())...
+		);
 	};
 
-	lua_pushlightuserdata(state, this);
-	lua_pushlightuserdata(state, argument);
-	lua_pushlightuserdata(state, function);
-	lua_pushcclosure(state, wrapper, 3);
+	push((LightUserData)function, (LightUserData)args...);
+	lua_pushcclosure(state, wrapper, 1 + sizeof...(Ts));
 
 	return *this;
 }

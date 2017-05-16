@@ -8,7 +8,7 @@ LuaState::LuaState()
 
 LuaState::~LuaState()
 {
-	lua_close(state);
+	//lua_close(state);
 }
 
 LuaState& LuaState::loadOpenLibs()
@@ -53,23 +53,27 @@ LuaState & LuaState::setField(const char * name, int index)
 	return *this;
 }
 
-LuaState& LuaState::push(CFunction<> function)
+LuaState & LuaState::getIndex(int i, int index)
 {
-	lua_CFunction wrapper = [](lua_State * l) -> int {
-		LuaState  * luaState = static_cast<LuaState*>(lua_touserdata(l, lua_upvalueindex(1)));
-		CFunction<> function = static_cast<CFunction<>>(lua_touserdata(l, lua_upvalueindex(2)));
-		return function(luaState);
-	};
+	lua_geti(state, index, i);
+	return *this;
+}
 
-	lua_pushlightuserdata(state, this);
-	lua_pushlightuserdata(state, function);
-	lua_pushcclosure(state, wrapper, 2);
+LuaState & LuaState::setIndex(int i, int index)
+{
+	lua_seti(state, index, i);
 	return *this;
 }
 
 LuaState& LuaState::push(const char * str)
 {
 	lua_pushstring(state, str);
+	return *this;
+}
+
+LuaState & LuaState::push(LightUserData ptr)
+{
+	lua_pushlightuserdata(state, ptr);
 	return *this;
 }
 
@@ -112,7 +116,8 @@ void LuaState::assert(bool condition, const char * message)
 	if (!condition)
 	{
 		printf("%s\n", message);
-		throw std::exception(message);
+		system("pause");
+		exit(-1);
 	}
 }
 
@@ -122,6 +127,7 @@ void LuaState::assert_pcall(int pcall, const char * message)
 	{
 		const char * error; pop(error);
 		printf("%s: %s\n", message, error);
-		throw std::exception(message);
+		system("pause");
+		exit(-1);
 	}
 }

@@ -13,8 +13,7 @@ public:
 
 	void start();
 
-	template<typename T, typename ... Ts>
-	void addBlob(Ts &&... args);
+	void addBlob(std::unique_ptr<Blob> & blob);
 
 private:
 	sf::RenderWindow window;
@@ -27,10 +26,8 @@ private:
 	void pollEvents();
 	void update(sf::Time & delta);
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;
+
+	static int lua_getClosestBlob(LuaState * lua, Blob * blob);//, std::vector<std::unique_ptr<Blob>> * blobs);
+	static int lua_getInputDirection(LuaState * lua);
 };
 
-template<typename T, typename ...Ts>
-void Engine::addBlob(Ts && ...args)
-{
-	blobs.push_back(std::make_unique<T>(std::forward<Ts>(args)...));
-}

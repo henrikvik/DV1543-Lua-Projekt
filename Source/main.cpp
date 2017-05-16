@@ -2,19 +2,24 @@
 #include <Windows.h>
 
 #include "LuaState.h"
-#include "PlayerBlob.h"
-#include "AIBlob.h"
 
 
 
 void main()
 {
-	Engine engine;
+	Engine game;
 
-	engine.addBlob<PlayerBlob>(sf::Color::Blue, 50, "Assets/Lua/Player.lua");
-	engine.addBlob<AIBlob>(sf::Color::Red, 50, "Assets/Lua/AI.lua");
+	game.addBlob(std::make_unique<Blob>( 
+		sf::Color::Red, 
+		sf::Vector2f(), 
+		50, 
+		"Assets/Lua/AI.lua" ));
 
-	engine.start();
+	game.addBlob(std::make_unique<Blob>(
+		sf::Color::Blue,
+		sf::Vector2f(-150, 0),
+		60,
+		"Assets/Lua/Player.lua"));
 
-	system("pause");
+	game.start();
 }
