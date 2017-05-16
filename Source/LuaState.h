@@ -58,17 +58,15 @@ LuaState & LuaState::push(CFunction<Ts...> function, Ts * ...args)
 {
 	lua_CFunction wrapper = [](lua_State * l) -> int 
 	{
-		size_t i = 0;
-		CFunction<Ts...> function = static_cast<CFunction<Ts...>>(lua_touserdata(l, lua_upvalueindex(++i)));
+		CFunction<Ts...> function = static_cast<CFunction<Ts...>>(lua_touserdata(l, lua_upvalueindex(1)));
 
-		auto getud = [&]() void*
+		int i = 2;
+		auto getud = [&]() -> void*
 		{
-			return lua_touserdata(l, lua_upvalueindex(++i));
+			return lua_touserdata(l, lua_upvalueindex(i++));
 		};
 
-		return std::invoke(function, 
-			static_cast<Ts*>(getud())...
-		);
+		return std::invoke(function, static_cast<Ts*>(getud())...);
 	};
 
 	push((LightUserData)function, (LightUserData)args...);
