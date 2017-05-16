@@ -3,26 +3,16 @@ dofile("Assets/Lua/Blob.lua")
 this = Blob:New()
 
 function update(delta)
-	
-	local x, y, radius = getClosestBlob();
-	print(x, y, radius);
+	local dangerX, dangerY, dangerD = getClosestDanger()
+	local foodX, foodY, foodD = getClosestFood()
 
-	local dir = Vector:New({
-		x = x - this.position.x,
-		y = y - this.position.y
-	});
-
-	dir:Normalize();
-
-	if (radius > this.radius) then
-		dir = -dir;
+	if (dangerD > foodD) then
+		moveAway(dangerX, dangerY, delta)
+	else
+		moveTo(foodX, foodY, delta)
 	end
+
 	
-	this.radius = this.radius + delta;
-	this:Move(
-		dir.x * delta,
-		dir.y * delta
-	);
 end
 
 function onCollision(otherRadius, distance)
@@ -32,14 +22,24 @@ function onCollision(otherRadius, distance)
 	end
 end
 
-function moveTo(newPos, oldPos, delta)	
+function moveTo(x, y, delta)	
+	local newPos = Vector(x, y)
 
-	dir = normalize(newPos- oldPos)
+	dir = Normalize(newPos - this.position)
 
-	self.Move(
+	this.Move(
 	dir.x * delta,
 	dir.y * delta
 	);	
 
 end
 
+function moveAway(x, y, delta)
+	local danger *= Vector(x, y)
+	dir = Normalize(this.position - danger)
+
+	this.Move(
+		dir.x * delta,
+		dir.y * delta
+	);
+end
