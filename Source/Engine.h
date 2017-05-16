@@ -27,7 +27,7 @@ private:
 	void update(sf::Time & delta);
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;
 
-	static int lua_getClosestBlob(LuaState * lua, Blob * blob, std::vector<std::unique_ptr<Blob>> * blobs);
+	static int lua_getClosestBlob(LuaState * lua, Blob * blob);//, std::vector<std::unique_ptr<Blob>> * blobs);
 	static int lua_getInputDirection(LuaState * lua);
 };
 

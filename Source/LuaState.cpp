@@ -8,7 +8,7 @@ LuaState::LuaState()
 
 LuaState::~LuaState()
 {
-	lua_close(state);
+	//lua_close(state);
 }
 
 LuaState& LuaState::loadOpenLibs()

@@ -34,6 +34,7 @@ public:
 	template<typename T, typename... Ts>
 	LuaState& pop(T & first, Ts &... args);
 
+	LuaState& push(double) = delete;
 	LuaState& push(float number);
 	LuaState& push(const char * str);
 	LuaState& push(LightUserData ptr);
@@ -49,6 +50,7 @@ private:
 
 	void assert(bool condition, const char * message);
 	void assert_pcall(int err, const char * message);
+	void push(void) {};
 };
 
 template<typename ...Ts>
@@ -58,7 +60,15 @@ LuaState & LuaState::push(CFunction<Ts...> function, Ts * ...args)
 	{
 		size_t i = 0;
 		CFunction<Ts...> function = static_cast<CFunction<Ts...>>(lua_touserdata(l, lua_upvalueindex(++i)));
-		return std::invoke(function, static_cast<Ts*>(lua_touserdata(l, lua_upvalueindex(++i)))...);
+
+		auto getud = [&]() void*
+		{
+			return lua_touserdata(l, lua_upvalueindex(++i));
+		};
+
+		return std::invoke(function, 
+			static_cast<Ts*>(getud())...
+		);
 	};
 
 	push((LightUserData)function, (LightUserData)args...);
