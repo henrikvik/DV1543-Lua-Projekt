@@ -3,9 +3,6 @@
 #include <functional>
 #include <tuple>
 
-
-
-
 class LuaState
 {
 public:
@@ -61,15 +58,31 @@ LuaState & LuaState::push(CFunction<Ts...> function, Ts * ...args)
 		CFunction<Ts...> function = static_cast<CFunction<Ts...>>(lua_touserdata(l, lua_upvalueindex(1)));
 
 		int i = 2;
-		auto getud = [&]() -> void*
+		auto getud = [&](auto msg) -> void*
 		{
+			printf("%d %s\n", i, msg);
 			return lua_touserdata(l, lua_upvalueindex(i++));
 		};
 
-		return std::invoke(function, static_cast<Ts*>(getud())...);
+		return std::invoke(function, static_cast<Ts*>(getud(typeid(Ts).name()))...);
 	};
 
-	push((LightUserData)function, (LightUserData)args...);
+	std::string out = "\n";
+	for (int i = 0; i < sizeof...(Ts); i++)
+		out = "%s " + out;
+
+	printf(out.c_str(), typeid(Ts).name()...);
+
+	auto print = [](const char * s)
+	{
+		printf("%s\n", s);
+		return 0;
+	};
+
+	std::initializer_list<int>({ print(typeid(Ts).name())... });
+
+
+	push(static_cast<LightUserData>(function), static_cast<LightUserData>(args)...);
 	lua_pushcclosure(state, wrapper, 1 + sizeof...(Ts));
 
 	return *this;
