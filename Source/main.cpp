@@ -50,4 +50,5 @@ void main()
 	l.dostring("print(test())");
 	l.dostring("print(test())");
 	l.dostring("print(test())");
+	system("pause");
 }
