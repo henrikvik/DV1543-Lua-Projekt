@@ -3,7 +3,7 @@
 
 size_t Blob::UID_BASE = 0;
 
-Blob::Blob(sf::Color color, sf::Vector2f & position, float radius, const char * luaScript)
+Blob::Blob(sf::Color color, const sf::Vector2f & position, float radius, const char * luaScript)
 	: uid(UID_BASE++)
 {
 	lua.loadOpenLibs().dofile(luaScript);

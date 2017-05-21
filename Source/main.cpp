@@ -22,33 +22,19 @@ int l_test(LuaState * l, A * a)
 
 void main()
 {
-	//Engine game;
+	Engine game;
 
-	//game.addBlob(std::make_unique<Blob>( 
-	//	sf::Color::Red, 
-	//	sf::Vector2f(), 
-	//	50, 
-	//	"Assets/Lua/AI.lua" ));
+	game.addBlob(
+		sf::Color::Red, 
+		sf::Vector2f(0,0), 
+		50, 
+		"Assets/Lua/AI.lua" );
 
-	//game.addBlob(std::make_unique<Blob>(
-	//	sf::Color::Blue,
-	//	sf::Vector2f(-150, 0),
-	//	60,
-	//	"Assets/Lua/Player.lua"));
+	game.addBlob(
+		sf::Color::Blue,
+		sf::Vector2f(-150, 0),
+		60,
+		"Assets/Lua/Player.lua");
 
-	//game.start();
-
-	A a;
-	LuaState l;
-	l.loadOpenLibs();
-
-	l.push(l_test, &l, &a);
-	l.setGlobal("test");
-	l.dostring("print(test())");
-	l.dostring("print(test())");
-	l.dostring("print(test())");
-	l.dostring("print(test())");
-	l.dostring("print(test())");
-	l.dostring("print(test())");
-	system("pause");
+	game.start();
 }

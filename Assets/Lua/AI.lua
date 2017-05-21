@@ -3,13 +3,12 @@ dofile("Assets/Lua/Blob.lua");
 this = Blob:New();
 
 function update(delta)
-	local dangerX, dangerY, dangerD = getClosestDanger();
-	local foodX, foodY, foodD = getClosestFood();
+	local x, y, r = getClosestBlob();
 
-	if (dangerD > foodD) then
-		moveAway(dangerX, dangerY, delta);
+	if (r > this.radius) then
+		--moveAway(x, y, delta);
 	else
-		moveTo(foodX, foodY, delta);
+		--moveTo(x, y, delta);
 	end	
 end
 
@@ -17,21 +16,30 @@ function onCollision(otherRadius, distance)
 	if (otherRadius > this.radius) then
 		local difference = (otherRadius + this.radius) - distance;
 		this.radius = this.radius - difference;
+
+		if (this.radius < 0) then
+			addBlob(
+				{ r = 0, g = 255, b = 0}, 
+				{ x = 100.0, y = 20.0}, 
+				65.0,
+				"Assets/Lua/Food.lua"
+			);
+		end
 	end
 end
 
 function moveTo(x, y, delta)	
-	local newPos = Vector(x, y);
+	local newPos = Vector:New({x = x, y = y});
 	local dir = newPos - this.position;
 	dir:Normalize();
 
-	this.Move(dir.x * delta, dir.y * delta);
+	this:Move(dir.x * delta, dir.y * delta);
 end
 
 function moveAway(x, y, delta)
-	local danger = Vector(x, y);
+	local danger = Vector:New({x = x, y = y});
 	local dir = this.position - danger;
 	dir:Normalize();
 
-	this.Move(dir.x * delta, dir.y * delta);
+	this:Move(dir.x * delta, dir.y * delta);
 end

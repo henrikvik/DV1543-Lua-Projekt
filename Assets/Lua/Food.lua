@@ -1,16 +1,9 @@
 dofile("Assets/Lua/Blob.lua");
 
 this = Blob:New();
-moveSpeed = 50;
 
 function update(delta)
 	
-	local x, y = getInputDirection();
-
-	this:Move(
-		x * moveSpeed * delta,
-		y * moveSpeed * delta
-	);
 
 end
 

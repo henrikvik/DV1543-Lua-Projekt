@@ -26,6 +26,7 @@ public:
 	LuaState& setIndex(int i, int index = -2);
 
 	LuaState& pop();
+	LuaState& pop(int & number);
 	LuaState& pop(float & number);
 	LuaState& pop(const char *& str);
 	template<typename T, typename... Ts>

@@ -13,7 +13,7 @@ end
 
 --## Member Function ##--
 
-function Blob:Move(v)
-	self.position.x = self.position.x + v.x;
-	self.position.y = self.position.y + v.y;
+function Blob:Move(x, y)
+	self.position.x = self.position.x + x;
+	self.position.y = self.position.y + y;
 end

@@ -46,5 +46,6 @@
     <None Include="Assets\Lua\Vector.lua" />
     <None Include="Assets\Lua\Player.lua" />
     <None Include="ClassDiagram.cd" />
+    <None Include="Assets\Lua\Food.lua" />
   </ItemGroup>
 </Project>
