@@ -11,13 +11,18 @@ Blob::Blob(sf::Color color, const sf::Vector2f & position, float radius, const c
 	this->position = position;
 	this->radius = radius;
 
-	lua.getGlobal("this")
-		.push(radius).setField("radius")
-		.getField("position")
-			.push(position.x).setField("x")
-			.push(position.y).setField("y")
-		.pop()
-	.pop();
+	lua.getGlobal("this");
+		lua.push(radius).setField("radius");
+		lua.getField("position");
+			lua.push(position.x).setField("x");
+			lua.push(position.y).setField("y");
+		lua.pop();
+		lua.getField("color");
+			lua.push((int)color.r).setField("r");
+			lua.push((int)color.g).setField("g");
+			lua.push((int)color.b).setField("b");
+		lua.pop();
+	lua.pop();
 
 	shape.setFillColor(color);
 	shape.setRadius(radius);
