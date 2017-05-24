@@ -17,6 +17,7 @@
     <ClCompile Include="Source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\GameState.h" />
     <ClInclude Include="Source\Blob.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\LuaState.h" />

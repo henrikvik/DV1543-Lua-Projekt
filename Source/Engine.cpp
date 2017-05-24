@@ -10,6 +10,7 @@ Engine::Engine()
 	camera.setSize({ 800, 600 });
 
 	window.setView(camera);
+
 }
 
 Engine::~Engine()

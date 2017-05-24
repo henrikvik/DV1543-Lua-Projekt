@@ -1,9 +1,10 @@
 #pragma once
+#include <vector>
+#include <map>
 #include <SFML\Graphics\RenderWindow.hpp>
 #include <SFML\System\Clock.hpp>
 #include "Blob.h"
-#include "vector"
-#include <memory>
+#include "GameState.h"
 
 class Engine : public sf::Drawable
 {
@@ -18,6 +19,10 @@ public:
 	void quitGame();
 
 private:
+	enum State {MENU, PLAY, EDITOR};
+	std::map<State, GameState*> states;
+	GameState * currentState;
+
 	sf::RenderWindow window;
 	sf::View camera;
 
