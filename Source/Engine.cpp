@@ -29,7 +29,7 @@ void Engine::start()
 		pollEvents();
 		update(clock.restart());
 
-		window.clear();
+		window.clear(sf::Color(245,245,245));
 		window.draw(*this);
 		window.display();
 	}
