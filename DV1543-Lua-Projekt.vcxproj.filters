@@ -51,7 +51,6 @@
     <None Include="Assets\Lua\Utility.lua" />
     <None Include="Assets\Lua\Vector.lua" />
     <None Include="Assets\Lua\Player.lua" />
-    <None Include="ClassDiagram.cd" />
     <None Include="Assets\Lua\Food.lua" />
     <None Include="Assets\Lua\Color.lua" />
   </ItemGroup>
