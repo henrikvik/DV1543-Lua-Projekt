@@ -49,7 +49,15 @@ void Engine::addBlob(sf::Color color, const sf::Vector2f & position, float radiu
 	lua->push(Engine::lua_addBlob, lua, this)
 		.setGlobal("addBlob");
 
+	lua->push(Engine::lua_quitGame, this)
+		.setGlobal("quitGame");
+
 	blobs.push_back(blob);
+}
+
+void Engine::quitGame()
+{
+	window.close();
 }
 
 void Engine::pollEvents()
@@ -80,7 +88,7 @@ void Engine::update(sf::Time & delta)
 	}
 
 	blobs.erase(std::remove_if(blobs.begin(), blobs.end(), [](Blob* blob) {
-		return blob->getRadius() < 0;
+		return blob->getRadius() <= 0.0f;
 	}), blobs.end());
 }
 
@@ -95,25 +103,29 @@ void Engine::draw(sf::RenderTarget & target, sf::RenderStates states) const
 
 int Engine::lua_addBlob(LuaState * lua, Engine * engine)
 {
-	// addBlob({r, g, b}, 
+	// addBlob({r, g, b}, {x, y}, radius, script);
 	const char * script;
-	float x, y, radius;
+	float radius, x, y;
+	int r, g, b;
+
 	lua->pop(script, radius);
 
 	lua->getField("x").pop(x);
 	lua->getField("y").pop(y);
 	lua->pop();
 
-	int r, g, b;
-	
 	lua->getField("r").pop(r);
 	lua->getField("g").pop(g);
 	lua->getField("b").pop(b);
 	lua->pop();
 
+	engine->addBlob(sf::Color(r, g, b), sf::Vector2f(x, y), radius, script);
+	return 0;
+}
 
-	engine->addBlob(sf::Color(r, g, b), { x, y }, radius, script);
-
+int Engine::lua_quitGame(Engine * engine)
+{
+	engine->quitGame();
 	return 0;
 }
 

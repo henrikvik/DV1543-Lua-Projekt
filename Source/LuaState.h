@@ -33,6 +33,7 @@ public:
 	LuaState& pop(T & first, Ts &... args);
 
 	LuaState& push(double) = delete;
+	LuaState& push(int number);
 	LuaState& push(float number);
 	LuaState& push(const char * str);
 	LuaState& push(LightUserData ptr);
@@ -56,22 +57,10 @@ LuaState & LuaState::push(CFunction<Ts...> function, Ts * ...args)
 {
 	lua_CFunction wrapper = [](lua_State * l) -> int
 	{
-		CFunction<Ts...> function = static_cast<CFunction<Ts...>>(lua_touserdata(l, lua_upvalueindex(1)));
-
 		int i = 1 + sizeof...(Ts);
-		auto getud = [&]() -> void*
-		{
-			return lua_touserdata(l, lua_upvalueindex(i--));
-		};
-
-		return std::invoke(function, static_cast<Ts*>(getud())...);
+		CFunction<Ts...> function = static_cast<CFunction<Ts...>>(lua_touserdata(l, lua_upvalueindex(1)));
+		return std::invoke(function, static_cast<Ts*>(lua_touserdata(l, lua_upvalueindex(i--)))...);
 	};
-
-	auto print = [](const char * s)
-	{
-		printf("%s\n", s);
-		return 0;
-	};	
 
 	push(static_cast<LightUserData>(function), static_cast<LightUserData>(args)...);
 	lua_pushcclosure(state, wrapper, 1 + sizeof...(Ts));

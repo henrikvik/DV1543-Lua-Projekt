@@ -77,6 +77,12 @@ LuaState & LuaState::push(LightUserData ptr)
 	return *this;
 }
 
+LuaState & LuaState::push(int number)
+{
+	lua_pushinteger(state, number);
+	return *this;
+}
+
 LuaState& LuaState::push(float number)
 {
 	lua_pushnumber(state, number);
@@ -91,7 +97,7 @@ LuaState & LuaState::pop()
 
 LuaState & LuaState::pop(int & number)
 {
-	number = luaL_checknumber(state, -1);
+	number = luaL_checkinteger(state, -1);
 	lua_pop(state, 1);
 	return *this;
 }
