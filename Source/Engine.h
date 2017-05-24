@@ -13,7 +13,9 @@ public:
 
 	void start();
 
-	void addBlob(std::unique_ptr<Blob> & blob);
+	void addBlob(sf::Color color, const sf::Vector2f & position, float radius, const char * luaScript);
+
+	void quitGame();
 
 private:
 	sf::RenderWindow window;
@@ -21,13 +23,16 @@ private:
 
 	bool isRunning;
 
-	std::vector<std::unique_ptr<Blob>> blobs;
+	typedef std::vector<Blob*> BlobList;
+	BlobList blobs;
 
 	void pollEvents();
 	void update(sf::Time & delta);
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;
 
-	static int lua_getClosestBlob(LuaState * lua, Blob * blob, std::vector<std::unique_ptr<Blob>> * blobs);
+	static int lua_quitGame(Engine * engine);
+	static int lua_getClosestBlob(LuaState * lua, Blob * blob, BlobList* blobs);
+	static int lua_addBlob(LuaState * lua, Engine * engine);
 	static int lua_getInputDirection(LuaState * lua);
 };
 

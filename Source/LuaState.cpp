@@ -8,7 +8,7 @@ LuaState::LuaState()
 
 LuaState::~LuaState()
 {
-	lua_close(state);
+	//lua_close(state);
 }
 
 LuaState& LuaState::loadOpenLibs()
@@ -77,6 +77,12 @@ LuaState & LuaState::push(LightUserData ptr)
 	return *this;
 }
 
+LuaState & LuaState::push(int number)
+{
+	lua_pushinteger(state, number);
+	return *this;
+}
+
 LuaState& LuaState::push(float number)
 {
 	lua_pushnumber(state, number);
@@ -89,18 +95,23 @@ LuaState & LuaState::pop()
 	return *this;
 }
 
+LuaState & LuaState::pop(int & number)
+{
+	number = luaL_checkinteger(state, -1);
+	lua_pop(state, 1);
+	return *this;
+}
+
 LuaState& LuaState::pop(const char *& str)
 {
-	assert(lua_isstring(state, -1), "top of stack is not string");
-	str = lua_tostring(state, -1);
+	str = luaL_checkstring(state, -1);
 	lua_pop(state, 1);
 	return *this;
 }
 
 LuaState& LuaState::pop(float & number)
 {
-	assert(lua_isnumber(state, -1), "top of stack is not a number");
-	number = lua_tonumber(state, -1);
+	number = luaL_checknumber(state, -1);
 	lua_pop(state, 1);
 	return *this;
 }

@@ -3,9 +3,6 @@
 #include <functional>
 #include <tuple>
 
-
-
-
 class LuaState
 {
 public:
@@ -29,11 +26,14 @@ public:
 	LuaState& setIndex(int i, int index = -2);
 
 	LuaState& pop();
+	LuaState& pop(int & number);
 	LuaState& pop(float & number);
 	LuaState& pop(const char *& str);
 	template<typename T, typename... Ts>
 	LuaState& pop(T & first, Ts &... args);
 
+	LuaState& push(double) = delete;
+	LuaState& push(int number);
 	LuaState& push(float number);
 	LuaState& push(const char * str);
 	LuaState& push(LightUserData ptr);
@@ -49,19 +49,20 @@ private:
 
 	void assert(bool condition, const char * message);
 	void assert_pcall(int err, const char * message);
+	void push(void) {};
 };
 
 template<typename ...Ts>
 LuaState & LuaState::push(CFunction<Ts...> function, Ts * ...args)
 {
-	lua_CFunction wrapper = [](lua_State * l) -> int 
+	lua_CFunction wrapper = [](lua_State * l) -> int
 	{
-		size_t i = 0;
-		CFunction<Ts...> function = static_cast<CFunction<Ts...>>(lua_touserdata(l, lua_upvalueindex(++i)));
-		return std::invoke(function, static_cast<Ts*>(lua_touserdata(l, lua_upvalueindex(++i)))...);
+		int i = 1 + sizeof...(Ts);
+		CFunction<Ts...> function = static_cast<CFunction<Ts...>>(lua_touserdata(l, lua_upvalueindex(1)));
+		return std::invoke(function, static_cast<Ts*>(lua_touserdata(l, lua_upvalueindex(i--)))...);
 	};
 
-	push((LightUserData)function, (LightUserData)args...);
+	push(static_cast<LightUserData>(function), static_cast<LightUserData>(args)...);
 	lua_pushcclosure(state, wrapper, 1 + sizeof...(Ts));
 
 	return *this;

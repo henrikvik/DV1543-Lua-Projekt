@@ -12,11 +12,13 @@ Engine::Engine()
 	window.setView(camera);
 }
 
-
 Engine::~Engine()
 {
+	for (Blob * blob : blobs)
+	{
+		delete blob;
+	}
 }
-
 
 void Engine::start()
 {
@@ -33,19 +35,30 @@ void Engine::start()
 	}
 }
 
-void Engine::addBlob(std::unique_ptr<Blob>& blob)
+void Engine::addBlob(sf::Color color, const sf::Vector2f & position, float radius, const char * luaScript)
 {
+	Blob * blob = new Blob(color, position, radius, luaScript);
 	LuaState * lua = blob->getLuaState();
 
 	lua->push(Engine::lua_getInputDirection, lua)
 		.setGlobal("getInputDirection");
 
-	lua->push(Engine::lua_getClosestBlob, lua, blob.get(), &blobs)
+	lua->push(Engine::lua_getClosestBlob, lua, blob, &blobs)
 		.setGlobal("getClosestBlob");
 
-	blobs.push_back(std::move(blob));
+	lua->push(Engine::lua_addBlob, lua, this)
+		.setGlobal("addBlob");
+
+	lua->push(Engine::lua_quitGame, this)
+		.setGlobal("quitGame");
+
+	blobs.push_back(blob);
 }
 
+void Engine::quitGame()
+{
+	window.close();
+}
 
 void Engine::pollEvents()
 {
@@ -63,13 +76,20 @@ void Engine::pollEvents()
 
 void Engine::update(sf::Time & delta)
 {
-	size_t size = blobs.size();
-	for (size_t i = 0; i < size; i++)
+	size_t i, j, size = blobs.size();
+	for (i = 0; i < size; i++)
 	{
 		blobs[i]->update(delta);
-		for (size_t j = i + 1; j < size; j++)
+
+		for (j = i + 1; j < size; j++)
+		{
 			blobs[i]->checkCollision(*blobs[j]);
+		}
 	}
+
+	blobs.erase(std::remove_if(blobs.begin(), blobs.end(), [](Blob* blob) {
+		return blob->getRadius() <= 0.0f;
+	}), blobs.end());
 }
 
 void Engine::draw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -81,25 +101,58 @@ void Engine::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	}
 }
 
-int Engine::lua_getClosestBlob(LuaState * lua, Blob * blob, std::vector<std::unique_ptr<Blob>> * blobs)
+int Engine::lua_addBlob(LuaState * lua, Engine * engine)
+{
+	// addBlob({r, g, b}, {x, y}, radius, script);
+	const char * script;
+	float radius, x, y;
+	int r, g, b;
+
+	lua->pop(script, radius);
+
+	lua->getField("x").pop(x);
+	lua->getField("y").pop(y);
+	lua->pop();
+
+	lua->getField("r").pop(r);
+	lua->getField("g").pop(g);
+	lua->getField("b").pop(b);
+	lua->pop();
+
+	engine->addBlob(sf::Color(r, g, b), sf::Vector2f(x, y), radius, script);
+	return 0;
+}
+
+int Engine::lua_quitGame(Engine * engine)
+{
+	engine->quitGame();
+	return 0;
+}
+
+int Engine::lua_getClosestBlob(LuaState * lua, Blob * blob, BlobList * blobs)
 {
 	sf::Vector2f from = blob->getPosition();
 
 	float distance = INFINITY;
 	Blob * closest = nullptr;
 
-	for (size_t i = 0, size = blobs->size(); i < size; i++)
+	for (Blob* blob : *blobs)
 	{
-		float testDistance = blobs->at(i)->getDistance(from);
+		float testDistance = blob->getDistance(from);
 		if (testDistance < distance)
 		{
 			distance = testDistance;
-			closest = blobs->at(i).get();
+			closest = blob;
 		}
 	}
+	sf::Vector2f pos = { 0,0 };
+	float radius = 0;
 
-	sf::Vector2f pos = closest->getPosition();
-	float radius = closest->getRadius();
+	if (closest != nullptr)
+	{
+		pos = closest->getPosition();
+		radius = closest->getRadius();
+	}
 
 	lua->push(pos.x, pos.y, radius);
 	return 3;

@@ -1,14 +1,15 @@
 dofile("Assets/Lua/Vector.lua");
+dofile("Assets/Lua/Color.lua");
 
-Blob = { radius = 0, position = Vector:New() }
+Blob = { radius = 0, position = Vector:New(), color = Color:New() };
 
 --## Constructor ##--
 
-function Blob:New(a)
-	a = a or {}
+function Blob:New(blob)
+	blob = blob or {};
 	self.__index = self;
-	setmetatable(a, self);
-	return a;
+	setmetatable(blob, self);
+	return blob;
 end
 
 --## Member Function ##--
