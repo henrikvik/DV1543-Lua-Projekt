@@ -1,0 +1,2 @@
+//lifespan, growthrate, movespeed, red, green, blue, radius, x, y, scrtipt
+5 1.3 24 200 20 133 20 10 30 "Assets/Lua/AI.lua"

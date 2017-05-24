@@ -8,6 +8,7 @@ class Blob : public sf::Drawable
 {
 public:
 	Blob(sf::Color color, const sf::Vector2f & position, float radius, const char * luaScript);
+	Blob(float lifeSpan, float growthRate, float moveSpeed, int colorRed, int colorGreen, int colorBlue, const std::string & name, const std::string & script);
 	virtual ~Blob();
 
 	virtual void update(sf::Time & delta);

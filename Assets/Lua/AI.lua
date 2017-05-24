@@ -22,7 +22,7 @@ function onCollision(otherRadius, distance)
 				{ r = 0, g = 255, b = 0}, 
 				{ x = 100.0, y = 20.0}, 
 				65.0,
-				"Assets/Lua/Food.lua"
+				"Assets/Lua/AI.lua"
 			);
 		end
 	end

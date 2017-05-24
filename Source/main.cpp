@@ -37,4 +37,5 @@ void main()
 		"Assets/Lua/Player.lua");
 
 	game.start();
+	system("pause");
 }
