@@ -9,8 +9,8 @@ class Editor
 {
 public:
 
-	std::vector<Blob*> readFromFile();
-	void writeToFile(float hm, float growthRate, float redColor, float greenColor, float blueColor, const char name, const char script);
+	std::vector<Blob*> readFromFile(const char* file, int nrOfBlobs);
+	void writeToFile(const char* file, float lifeSpan, float growthRate, float moveSpeed, int redColor, int greenColor, int blueColor, const char* name, const char* script);
 
 private:
 

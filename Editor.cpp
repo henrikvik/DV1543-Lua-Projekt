@@ -1,23 +1,48 @@
 #include "Editor.h"
 
-std::vector<Blob*> Editor::readFromFile()
+std::vector<Blob*> Editor::readFromFile(const char* file, int nrOfBlobs)
 {
 	std::vector<Blob*> blobs;
 	
-	float radius;
+	float lifeSpan;
 	float growthRate;
+	float moveSpeed;
+	int redColor;
+	int greenColor;
+	int blueColor;
+	char name;			//Blob will ha in std::string
+	char script;		//          --||--
 
+	std::ifstream in;	
+	in.open(file);
 
+	for (int i = 0; i < nrOfBlobs; i++)
+	{
+		in	>> lifeSpan 
+			>> growthRate 
+			>> moveSpeed
+			>> redColor 
+			>> greenColor 
+			>> blueColor 
+			>> name 
+			>> script;
+
+		Blob* blob = new Blob(lifeSpan, growthRate, moveSpeed, redColor, greenColor, blueColor, name, script);
+		
+		blobs.push_back(blob);
+	}
+
+	in.close();
 
 	return blobs;
 }
 
-void Editor::writeToFile(float hm, float growthRate, float redColor, float greenColor, float blueColor, const char name, const char script)
+void Editor::writeToFile(const char* file, float lifeSpan, float growthRate, float moveSpeed, int redColor, int greenColor, int blueColor, const char* name, const char* script)
 {
 	std::ofstream myFile;
-	myFile.open("Editor.txt");
+	myFile.open(file);
 
-	myFile	<< hm << " " 
+	myFile	<< lifeSpan << " " 
 			<< growthRate << " " 
 			<< redColor << " " 
 			<< greenColor << " " 
