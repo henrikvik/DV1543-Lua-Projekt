@@ -1,4 +1,5 @@
 #include "Editor.h"
+#include <string>
 
 std::vector<Blob*> Editor::readFromFile(const char* file, int nrOfBlobs)
 {
@@ -10,8 +11,8 @@ std::vector<Blob*> Editor::readFromFile(const char* file, int nrOfBlobs)
 	int redColor;
 	int greenColor;
 	int blueColor;
-	char name;			//Blob will ha in std::string
-	char script;		//          --||--
+	std::string name;			
+	std::string script;		
 
 	std::ifstream in;	
 	in.open(file);
@@ -23,9 +24,10 @@ std::vector<Blob*> Editor::readFromFile(const char* file, int nrOfBlobs)
 			>> moveSpeed
 			>> redColor 
 			>> greenColor 
-			>> blueColor 
-			>> name 
-			>> script;
+			>> blueColor;
+
+		std::getline(in, name, ' ');
+		std::getline(in, script, ' ');
 
 		Blob* blob = new Blob(lifeSpan, growthRate, moveSpeed, redColor, greenColor, blueColor, name, script);
 		
