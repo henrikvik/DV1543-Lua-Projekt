@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Editor.cpp" />
     <ClCompile Include="Source\Blob.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\LuaState.cpp" />
@@ -18,7 +19,7 @@
     <ClCompile Include="Source\PlayState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\GameState.h" />
+    <ClInclude Include="Editor.h" />
     <ClInclude Include="Source\Blob.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\LuaState.h" />
