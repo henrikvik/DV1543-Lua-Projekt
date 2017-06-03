@@ -35,10 +35,10 @@ Blob::~Blob()
 {
 }
 
-void Blob::update(sf::Time & delta)
+void Blob::update(float delta)
 {
 	lua.getGlobal("update")
-		.push(delta.asSeconds())
+		.push(delta)
 	.call(1, 0);
 
 	lua.getGlobal("this")

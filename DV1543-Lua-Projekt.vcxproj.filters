@@ -27,6 +27,9 @@
     <ClCompile Include="Source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Blob.h">
@@ -41,6 +44,9 @@
     <ClInclude Include="Source\GameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\PlayState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Lua\AI.lua" />
@@ -48,7 +54,6 @@
     <None Include="Assets\Lua\Utility.lua" />
     <None Include="Assets\Lua\Vector.lua" />
     <None Include="Assets\Lua\Player.lua" />
-    <None Include="ClassDiagram.cd" />
     <None Include="Assets\Lua\Food.lua" />
     <None Include="Assets\Lua\Color.lua" />
   </ItemGroup>

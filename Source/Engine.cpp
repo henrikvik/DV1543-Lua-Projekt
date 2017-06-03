@@ -11,170 +11,50 @@ Engine::Engine()
 
 	window.setView(camera);
 
+	currentState = &playState;
 }
 
 Engine::~Engine()
 {
-	for (Blob * blob : blobs)
-	{
-		delete blob;
-	}
+
 }
 
 void Engine::start()
 {
 	sf::Clock clock;
 
+	currentState->onEnter();
 	while (window.isOpen())
 	{
 		pollEvents();
-		update(clock.restart());
-
+		currentState->update(clock.restart().asSeconds());
 		window.clear(sf::Color(245,245,245));
-		window.draw(*this);
+		window.draw(*currentState);
 		window.display();
 	}
 }
 
-void Engine::addBlob(sf::Color color, const sf::Vector2f & position, float radius, const char * luaScript)
-{
-	Blob * blob = new Blob(color, position, radius, luaScript);
-	LuaState * lua = blob->getLuaState();
-
-	lua->push(Engine::lua_getInputDirection, lua)
-		.setGlobal("getInputDirection");
-
-	lua->push(Engine::lua_getClosestBlob, lua, blob, &blobs)
-		.setGlobal("getClosestBlob");
-
-	lua->push(Engine::lua_addBlob, lua, this)
-		.setGlobal("addBlob");
-
-	lua->push(Engine::lua_quitGame, this)
-		.setGlobal("quitGame");
-
-	blobs.push_back(blob);
-}
-
-void Engine::quitGame()
-{
-	window.close();
-}
-
 void Engine::pollEvents()
 {
-	sf::Event event;
-	while (window.pollEvent(event))
+	sf::Event windowEvent;
+	while (window.pollEvent(windowEvent))
 	{
-		switch (event.type)
+		switch (windowEvent.type)
 		{
 		case sf::Event::Closed:
 			window.close();
 			break;
 		}
 	}
-}
 
-void Engine::update(sf::Time & delta)
-{
-	size_t i, j, size = blobs.size();
-	for (i = 0; i < size; i++)
+	GameState::Event gameEvent;
+	while (currentState->pollEvent(gameEvent))
 	{
-		blobs[i]->update(delta);
-
-		for (j = i + 1; j < size; j++)
+		switch (gameEvent.type)
 		{
-			blobs[i]->checkCollision(*blobs[j]);
+		case GameState::Event::QUIT:
+			window.close();
+			break;
 		}
 	}
-
-	blobs.erase(std::remove_if(blobs.begin(), blobs.end(), [](Blob* blob) {
-		return blob->getRadius() <= 0.0f;
-	}), blobs.end());
-}
-
-void Engine::draw(sf::RenderTarget & target, sf::RenderStates states) const
-{
-	size_t size = blobs.size();
-	for (size_t i = 0; i < size; i++)
-	{
-		target.draw(*blobs[i], states);
-	}
-}
-
-int Engine::lua_addBlob(LuaState * lua, Engine * engine)
-{
-	// addBlob({r, g, b}, {x, y}, radius, script);
-	const char * script;
-	float radius, x, y;
-	int r, g, b;
-
-	lua->pop(script, radius);
-
-	lua->getField("x").pop(x);
-	lua->getField("y").pop(y);
-	lua->pop();
-
-	lua->getField("r").pop(r);
-	lua->getField("g").pop(g);
-	lua->getField("b").pop(b);
-	lua->pop();
-
-	engine->addBlob(sf::Color(r, g, b), sf::Vector2f(x, y), radius, script);
-	return 0;
-}
-
-int Engine::lua_quitGame(Engine * engine)
-{
-	engine->quitGame();
-	return 0;
-}
-
-int Engine::lua_getClosestBlob(LuaState * lua, Blob * blob, BlobList * blobs)
-{
-	sf::Vector2f from = blob->getPosition();
-
-	float distance = INFINITY;
-	Blob * closest = nullptr;
-
-	for (Blob* blob : *blobs)
-	{
-		float testDistance = blob->getDistance(from);
-		if (testDistance < distance)
-		{
-			distance = testDistance;
-			closest = blob;
-		}
-	}
-	sf::Vector2f pos = { 0,0 };
-	float radius = 0;
-
-	if (closest != nullptr)
-	{
-		pos = closest->getPosition();
-		radius = closest->getRadius();
-	}
-
-	lua->push(pos.x, pos.y, radius);
-	return 3;
-}
-
-int Engine::lua_getInputDirection(LuaState * lua)
-{
-	sf::Vector2f inputDir;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) inputDir.y--;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) inputDir.y++;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) inputDir.x--;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) inputDir.x++;
-
-	float length = sqrt(pow(inputDir.x, 2) + pow(inputDir.y, 2));
-
-	if (length > 0)
-	{
-		inputDir /= length;
-	}
-
-	lua->push(inputDir.x, inputDir.y);
-	return 2;
 }

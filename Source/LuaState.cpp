@@ -97,7 +97,7 @@ LuaState & LuaState::pop()
 
 LuaState & LuaState::pop(int & number)
 {
-	number = luaL_checkinteger(state, -1);
+	number = static_cast<int>(luaL_checkinteger(state, -1));
 	lua_pop(state, 1);
 	return *this;
 }
@@ -111,7 +111,7 @@ LuaState& LuaState::pop(const char *& str)
 
 LuaState& LuaState::pop(float & number)
 {
-	number = luaL_checknumber(state, -1);
+	number = static_cast<float>(luaL_checknumber(state, -1));
 	lua_pop(state, 1);
 	return *this;
 }

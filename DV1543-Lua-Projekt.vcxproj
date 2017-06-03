@@ -15,12 +15,14 @@
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\LuaState.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\PlayState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameState.h" />
     <ClInclude Include="Source\Blob.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\LuaState.h" />
+    <ClInclude Include="Source\PlayState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Lua\AI.lua" />
@@ -30,7 +32,6 @@
     <None Include="Assets\Lua\Player.lua" />
     <None Include="Assets\Lua\Utility.lua" />
     <None Include="Assets\Lua\Vector.lua" />
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

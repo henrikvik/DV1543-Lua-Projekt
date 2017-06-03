@@ -11,7 +11,7 @@ public:
 	Blob(float lifeSpan, float growthRate, float moveSpeed, int colorRed, int colorGreen, int colorBlue, const std::string & name, const std::string & script);
 	virtual ~Blob();
 
-	virtual void update(sf::Time & delta);
+	virtual void update(float delta);
 	void checkCollision(Blob & other);
 
 
@@ -23,6 +23,11 @@ public:
 
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;
+
+	bool operator=(const Blob & blob)
+	{
+		return blob.uid == uid;
+	}
 private:
 	static size_t UID_BASE;
 	const size_t uid;
