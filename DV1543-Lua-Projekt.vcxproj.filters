@@ -1,60 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="Source\Blob.cpp" />
+    <ClCompile Include="Source\Engine.cpp" />
+    <ClCompile Include="Source\LuaState.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\PlayState.cpp" />
+    <ClCompile Include="Source\FileHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Blob.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\LuaState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PlayState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Source\Blob.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\LuaState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PlayState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="Source\Blob.h" />
+    <ClInclude Include="Source\Engine.h" />
+    <ClInclude Include="Source\LuaState.h" />
+    <ClInclude Include="Source\PlayState.h" />
+    <ClInclude Include="Source\GameState.h" />
+    <ClInclude Include="Source\FileHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Lua\AI.lua" />
     <None Include="Assets\Lua\Blob.lua" />
+    <None Include="Assets\Lua\Color.lua" />
+    <None Include="Assets\Lua\Food.lua" />
+    <None Include="Assets\Lua\Player.lua" />
     <None Include="Assets\Lua\Utility.lua" />
     <None Include="Assets\Lua\Vector.lua" />
-    <None Include="Assets\Lua\Player.lua" />
-    <None Include="Assets\Lua\Food.lua" />
-    <None Include="Assets\Lua\Color.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Blobs.txt" />
   </ItemGroup>
 </Project>

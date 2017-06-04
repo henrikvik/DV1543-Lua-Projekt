@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="Source\FileHandler.cpp" />
     <ClCompile Include="Source\Blob.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\LuaState.cpp" />
@@ -19,9 +19,10 @@
     <ClCompile Include="Source\PlayState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Editor.h" />
+    <ClInclude Include="Source\FileHandler.h" />
     <ClInclude Include="Source\Blob.h" />
     <ClInclude Include="Source\Engine.h" />
+    <ClInclude Include="Source\GameState.h" />
     <ClInclude Include="Source\LuaState.h" />
     <ClInclude Include="Source\PlayState.h" />
   </ItemGroup>
@@ -33,6 +34,9 @@
     <None Include="Assets\Lua\Player.lua" />
     <None Include="Assets\Lua\Utility.lua" />
     <None Include="Assets\Lua\Vector.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Blobs.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -21,6 +21,8 @@ private:
 
 	void addBlob(sf::Color color, const sf::Vector2f & position, float radius, const char * luaScript);
 
+	void addBlobs(std::vector<Blob*> newBlobs);
+
 	static int lua_quitGame(PlayState * state);
 	static int lua_getClosestBlob(LuaState * lua, Blob * blob, BlobList* blobs);
 	static int lua_addBlob(LuaState * lua, PlayState *  state);

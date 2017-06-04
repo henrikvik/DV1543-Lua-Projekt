@@ -1,23 +1,18 @@
 dofile("Assets/Lua/Blob.lua");
 
 this = Blob:New();
-moveSpeed = 50;
-lifespan = 10;
 
 function update(delta)
-	lifespan = lifespan - delta;
+	this.lifeSpan = this.lifeSpan - delta;
 
 	local x, y = getInputDirection();
 
 	this:Move(
-		x * moveSpeed * delta,
-		y * moveSpeed * delta
+		x * this.moveSpeed * delta,
+		y * this.moveSpeed * delta
 	);
 
-	if (lifespan <= 0) then
-		lifespan = 10;
-		split();
-	end
+
 end
 
 function onCollision(otherRadius, distance)

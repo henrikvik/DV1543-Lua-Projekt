@@ -1,6 +1,7 @@
 #include <SFML\Graphics\RenderTarget.hpp>
 #include <SFML\Window\Keyboard.hpp>
 #include "PlayState.h"
+#include "FileHandler.h"
 
 PlayState::PlayState()
 {
@@ -45,17 +46,7 @@ void PlayState::update(float delta)
 
 void PlayState::onEnter()
 {
-	addBlob(
-		sf::Color::Red,
-		sf::Vector2f(0, 0),
-		50,
-		"Assets/Lua/AI.lua");
-
-	addBlob(
-		sf::Color::Blue,
-		sf::Vector2f(-150, 0),
-		60,
-		"Assets/Lua/Player.lua");
+	addBlobs(FileHandler::readFromFile("Assets/Blobs.txt"));
 }
 
 void PlayState::onLeave()
@@ -63,7 +54,7 @@ void PlayState::onLeave()
 	blobs.clear();
 }
 
-inline void PlayState::addBlob(sf::Color color, const sf::Vector2f & position, float radius, const char * luaScript)
+void PlayState::addBlob(sf::Color color, const sf::Vector2f & position, float radius, const char * luaScript)
 {
 	Blob * blob = new Blob(color, position, radius, luaScript);
 	LuaState * lua = blob->getLuaState();
@@ -81,6 +72,29 @@ inline void PlayState::addBlob(sf::Color color, const sf::Vector2f & position, f
 		.setGlobal("quitGame");
 
 	blobs.push_back(blob);
+}
+
+void PlayState::addBlobs(std::vector<Blob*>newBlobs)
+{
+	for each (Blob* blob in newBlobs)
+	{
+		LuaState * lua = blob->getLuaState();
+
+	lua->push(PlayState::lua_getInputDirection, lua)
+		.setGlobal("getInputDirection");
+
+	lua->push(PlayState::lua_getClosestBlob, lua, blob, &blobs)
+		.setGlobal("getClosestBlob");
+
+	lua->push(PlayState::lua_addBlob, lua, this)
+		.setGlobal("addBlob");
+
+	lua->push(PlayState::lua_quitGame, this)
+		.setGlobal("quitGame");
+
+	blobs.push_back(blob);
+	}
+	
 }
 
 int PlayState::lua_quitGame(PlayState * state)

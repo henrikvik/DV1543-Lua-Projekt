@@ -2,13 +2,12 @@ dofile("Assets/Lua/Vector.lua");
 dofile("Assets/Lua/Color.lua");
 
 Blob = { 
-	lifespan = 0,
-	growthrate = 0,
-	movespeed = 0,
+	lifeSpan = 0,
+	growthRate = 0,
+	moveSpeed = 0,
 	radius = 0, 
 	color = Color:New(),
-	position = Vector:New(), 
-	name = "UNKNOWN"
+	position = Vector:New()
 };
 
 --## Constructor ##--
