@@ -9,6 +9,7 @@ PlayState::PlayState()
 
 PlayState::~PlayState()
 {
+	onLeave();
 }
 
 void PlayState::draw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -51,6 +52,11 @@ void PlayState::onEnter()
 
 void PlayState::onLeave()
 {
+	for (Blob * blob : blobs)
+	{
+		delete blob;
+	}
+
 	blobs.clear();
 }
 
