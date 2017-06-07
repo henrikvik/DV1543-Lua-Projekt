@@ -20,6 +20,4 @@ private:
 	Button playButton;
 	Button editButton;
 	Button quitButton;
-
-	void play();
 };

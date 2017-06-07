@@ -22,6 +22,9 @@ void PlayState::draw(sf::RenderTarget & target, sf::RenderStates states) const
 
 void PlayState::update(float delta)
 {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		pushEvent({ GameState::Event::MENU });
+
 	for (size_t i = 0, j, size = blobs.size(); i < size; i++)
 	{
 		blobs[i]->update(delta);
