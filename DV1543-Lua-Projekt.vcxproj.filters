@@ -7,6 +7,8 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\PlayState.cpp" />
     <ClCompile Include="Source\FileHandler.cpp" />
+    <ClCompile Include="Source\MenuState.cpp" />
+    <ClCompile Include="Source\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Blob.h" />
@@ -15,6 +17,8 @@
     <ClInclude Include="Source\PlayState.h" />
     <ClInclude Include="Source\GameState.h" />
     <ClInclude Include="Source\FileHandler.h" />
+    <ClInclude Include="Source\MenuState.h" />
+    <ClInclude Include="Source\Button.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Lua\AI.lua" />
@@ -27,5 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Blobs.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\segoeui.ttf" />
   </ItemGroup>
 </Project>

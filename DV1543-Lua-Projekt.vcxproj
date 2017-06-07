@@ -11,19 +11,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="Source\FileHandler.cpp" />
     <ClCompile Include="Source\Blob.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\LuaState.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\MenuState.cpp" />
     <ClCompile Include="Source\PlayState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\FileHandler.h" />
     <ClInclude Include="Source\Blob.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\GameState.h" />
     <ClInclude Include="Source\LuaState.h" />
+    <ClInclude Include="Source\MenuState.h" />
     <ClInclude Include="Source\PlayState.h" />
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Blobs.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\segoeui.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -98,7 +105,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;Lua-5.3.4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;Lua-5.3.4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /sy "$(SolutionDir)Static" "$(SolutionDir)Build\$(Configuration)"</Command>

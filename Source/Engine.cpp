@@ -2,6 +2,7 @@
 #include <SFML\Window\Event.hpp>
 
 Engine::Engine()
+	: menuState(window)
 {
 	sf::VideoMode mode(800, 600);
 	window.create(mode, "Lua Projekt", sf::Style::Close);
@@ -11,7 +12,7 @@ Engine::Engine()
 
 	window.setView(camera);
 
-	currentState = &playState;
+	currentState = &menuState;
 }
 
 Engine::~Engine()
@@ -54,6 +55,16 @@ void Engine::pollEvents()
 		{
 		case GameState::Event::QUIT:
 			window.close();
+			break;
+		case GameState::Event::MENU:
+			currentState->onLeave();
+			currentState = &menuState;
+			currentState->onEnter();
+			break;
+		case GameState::Event::PLAY:
+			currentState->onLeave();
+			currentState = &playState;
+			currentState->onEnter();
 			break;
 		}
 	}

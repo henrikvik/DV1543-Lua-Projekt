@@ -14,7 +14,7 @@ public:
 
 	struct Event
 	{
-		enum Type { QUIT };
+		enum Type { QUIT, MENU, PLAY, EDITOR };
 		Type type;
 	};
 

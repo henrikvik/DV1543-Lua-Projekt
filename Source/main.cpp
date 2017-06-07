@@ -5,5 +5,4 @@ void main()
 {
 	Engine game;
 	game.start();
-	system("pause");
 }

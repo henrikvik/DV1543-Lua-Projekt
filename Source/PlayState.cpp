@@ -105,7 +105,7 @@ void PlayState::addBlobs(std::vector<Blob*>newBlobs)
 
 int PlayState::lua_quitGame(PlayState * state)
 {
-	state->pushEvent({ GameState::Event::QUIT });
+	state->pushEvent({ GameState::Event::MENU });
 	return 0;
 }
 
