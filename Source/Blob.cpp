@@ -136,10 +136,8 @@ void Blob::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(shape);
 }
 
-std::string Blob::toString(const std::string script)
+std::string Blob::toString()
 {
-	lua.loadOpenLibs().dofile(script.c_str());
-
 	float lifeSpan;
 	float growthRate;
 	float moveSpeed;

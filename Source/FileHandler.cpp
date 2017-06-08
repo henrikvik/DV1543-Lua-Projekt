@@ -55,15 +55,15 @@ std::vector<Blob*> FileHandler::readFromFile(const char* file)
 void FileHandler::writeToFile(const char* file, std::vector<Blob*> blobs)
 {
 	std::string str;
-	for each (Blob* blob in blobs)
-	{
-		str = blob->toString(script);
-	}
 
 	std::ofstream myFile;
 	myFile.open(file);
 
-	myFile	<< ;
+	for each (Blob* blob in blobs)
+	{
+		str = blob->toString();
+		myFile << str << std::endl;
+	}
 
 	myFile.close();
 }
