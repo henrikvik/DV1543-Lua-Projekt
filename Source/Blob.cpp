@@ -1,5 +1,6 @@
 #include "Blob.h"
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <sstream>
 
 size_t Blob::UID_BASE = 0;
 
@@ -133,4 +134,51 @@ const sf::Vector2f & Blob::getPosition()
 void Blob::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(shape);
+}
+
+std::string Blob::toString(const std::string script)
+{
+	lua.loadOpenLibs().dofile(script.c_str());
+
+	float lifeSpan;
+	float growthRate;
+	float moveSpeed;
+	int colorRed;
+	int colorGreen;
+	int colorBlue;
+	float radius;
+	float x;
+	float y;
+	const std::string script;
+
+	lua.getGlobal("this");
+		lua.getField("lifespan").pop(lifeSpan);
+		lua.getField("growthRate").pop(growthRate);
+		lua.getField("moveSpeed").pop(moveSpeed);
+		lua.getField("radius").pop(radius);
+		lua.getField("position");
+			lua.getField("x").pop(x);
+			lua.getField("y").pop(y);
+		lua.pop();
+		lua.getField("color");
+			lua.getField("r").pop(colorRed);
+			lua.getField("g").pop(colorGreen);
+			lua.getField("b").pop(colorBlue);
+		lua.pop();
+	lua.pop();
+
+	std::stringstream string;
+
+	string << lifeSpan << " "
+		<< growthRate << " "
+		<< moveSpeed << " "
+		<< colorRed << " "
+		<< colorGreen << " "
+		<< colorBlue << " "
+		<< radius << " "
+		<< x << " "
+		<< y << " "
+		<< script;
+
+	return string.str();
 }
