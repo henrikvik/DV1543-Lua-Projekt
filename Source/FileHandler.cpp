@@ -52,21 +52,18 @@ std::vector<Blob*> FileHandler::readFromFile(const char* file)
 	return blobs;
 }
 
-void FileHandler::writeToFile(const char* file, float lifeSpan, float growthRate, float moveSpeed, int redColor, int greenColor, int blueColor, float radius, float x, float y, const char* script)
+void FileHandler::writeToFile(const char* file, std::vector<Blob*> blobs)
 {
+	std::string str;
+
 	std::ofstream myFile;
 	myFile.open(file);
 
-	myFile	<< lifeSpan << " " 
-			<< growthRate << " " 
-			<< redColor << " " 
-			<< greenColor << " " 
-			<< blueColor << " " 
-			<< radius << " " 
-			<< x << " "
-			<< y << " "
-			<< script 
-			<< std::endl;
+	for each (Blob* blob in blobs)
+	{
+		str = blob->toString();
+		myFile << str << std::endl;
+	}
 
 	myFile.close();
 }
