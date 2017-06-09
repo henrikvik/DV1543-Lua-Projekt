@@ -19,6 +19,7 @@
     <ClInclude Include="Source\FileHandler.h" />
     <ClInclude Include="Source\MenuState.h" />
     <ClInclude Include="Source\Button.h" />
+    <ClInclude Include="Source\EditorState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Lua\AI.lua" />
