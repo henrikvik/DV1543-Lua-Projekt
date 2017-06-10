@@ -102,7 +102,7 @@ int PlayState::lua_getClosestBlob(LuaState * lua, Blob * blob, BlobList * blobs)
 	for (Blob * blob : *blobs)
 	{
 		float testDistance = blob->getDistance(from);
-		if (testDistance < distance)
+		if (testDistance != 0 && testDistance < distance)
 		{
 			distance = testDistance;
 			closest = blob;
