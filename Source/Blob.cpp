@@ -4,38 +4,11 @@
 
 size_t Blob::UID_BASE = 0;
 
-Blob::Blob(sf::Color color, const sf::Vector2f & position, float radius, const char * luaScript)
-	: uid(UID_BASE++)
-{
-	lua.loadOpenLibs().dofile(luaScript);
-
-	this->position = position;
-	this->radius = radius;
-
-	lua.getGlobal("this");
-		lua.push(radius).setField("radius");
-		lua.getField("position");
-			lua.push(position.x).setField("x");
-			lua.push(position.y).setField("y");
-		lua.pop();
-		lua.getField("color");
-			lua.push((int)color.r).setField("r");
-			lua.push((int)color.g).setField("g");
-			lua.push((int)color.b).setField("b");
-		lua.pop();
-	lua.pop();
-
-	shape.setFillColor(color);
-	shape.setRadius(radius);
-	shape.setPosition({
-		position.x - radius, 
-		position.y - radius });
-}
-
 Blob::Blob(float lifeSpan, float growthRate, float moveSpeed, int colorRed, int colorGreen, int colorBlue, float radius, float x, float y, const std::string & script)
 	: uid(UID_BASE++)
 {
 	lua.loadOpenLibs().dofile(script.c_str());
+	this->script = script;
 
 	this->position = { x, y };
 	sf::Color color(colorRed, colorGreen, colorBlue);
@@ -147,10 +120,9 @@ std::string Blob::toString()
 	float radius;
 	float x;
 	float y;
-	const std::string script;
 
 	lua.getGlobal("this");
-		lua.getField("lifespan").pop(lifeSpan);
+		lua.getField("lifeSpan").pop(lifeSpan);
 		lua.getField("growthRate").pop(growthRate);
 		lua.getField("moveSpeed").pop(moveSpeed);
 		lua.getField("radius").pop(radius);

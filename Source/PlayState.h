@@ -18,9 +18,7 @@ public:
 private:
 	typedef std::vector<Blob*> BlobList;
 	BlobList blobs;
-
-	void addBlob(sf::Color color, const sf::Vector2f & position, float radius, const char * luaScript);
-
+	
 	void addBlobs(std::vector<Blob*> newBlobs);
 
 	static int lua_quitGame(PlayState * state);

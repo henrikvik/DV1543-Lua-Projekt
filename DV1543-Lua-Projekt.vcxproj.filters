@@ -9,6 +9,9 @@
     <ClCompile Include="Source\FileHandler.cpp" />
     <ClCompile Include="Source\MenuState.cpp" />
     <ClCompile Include="Source\Button.cpp" />
+    <ClCompile Include="Source\EditorState.cpp" />
+    <ClCompile Include="Source\Increment.cpp" />
+    <ClCompile Include="Source\BlobEdit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Blob.h" />
@@ -20,6 +23,8 @@
     <ClInclude Include="Source\MenuState.h" />
     <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\EditorState.h" />
+    <ClInclude Include="Source\Increment.h" />
+    <ClInclude Include="Source\BlobEdit.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Lua\AI.lua" />

@@ -6,6 +6,7 @@
 #include "GameState.h"
 #include "PlayState.h"
 #include "MenuState.h"
+#include "EditorState.h"
 
 class Engine
 {
@@ -21,6 +22,7 @@ private:
 
 	MenuState menuState;
 	PlayState playState;
+	EditorState editorState;
 	GameState * currentState;
 
 	void pollEvents();

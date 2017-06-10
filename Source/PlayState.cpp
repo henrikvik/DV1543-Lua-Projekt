@@ -63,26 +63,6 @@ void PlayState::onLeave()
 	blobs.clear();
 }
 
-void PlayState::addBlob(sf::Color color, const sf::Vector2f & position, float radius, const char * luaScript)
-{
-	Blob * blob = new Blob(color, position, radius, luaScript);
-	LuaState * lua = blob->getLuaState();
-
-	lua->push(PlayState::lua_getInputDirection, lua)
-		.setGlobal("getInputDirection");
-
-	lua->push(PlayState::lua_getClosestBlob, lua, blob, &blobs)
-		.setGlobal("getClosestBlob");
-
-	lua->push(PlayState::lua_addBlob, lua, this)
-		.setGlobal("addBlob");
-
-	lua->push(PlayState::lua_quitGame, this)
-		.setGlobal("quitGame");
-
-	blobs.push_back(blob);
-}
-
 void PlayState::addBlobs(std::vector<Blob*>newBlobs)
 {
 	for each (Blob* blob in newBlobs)
@@ -143,23 +123,7 @@ int PlayState::lua_getClosestBlob(LuaState * lua, Blob * blob, BlobList * blobs)
 
 int PlayState::lua_addBlob(LuaState * lua, PlayState *  state)
 {
-	// addBlob({r, g, b}, {x, y}, radius, script);
-	const char * script;
-	float radius, x, y;
-	int r, g, b;
 
-	lua->pop(script, radius);
-
-	lua->getField("x").pop(x);
-	lua->getField("y").pop(y);
-	lua->pop();
-
-	lua->getField("r").pop(r);
-	lua->getField("g").pop(g);
-	lua->getField("b").pop(b);
-	lua->pop();
-
-	state->addBlob(sf::Color(r, g, b), sf::Vector2f(x, y), radius, script);
 	return 0;
 }
 

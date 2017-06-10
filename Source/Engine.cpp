@@ -3,6 +3,7 @@
 
 Engine::Engine()
 	: menuState(window)
+	, editorState(window)
 {
 	sf::VideoMode mode(800, 600);
 	window.create(mode, "Lua Projekt", sf::Style::Close);
@@ -64,6 +65,11 @@ void Engine::pollEvents()
 		case GameState::Event::PLAY:
 			currentState->onLeave();
 			currentState = &playState;
+			currentState->onEnter();
+			break;
+		case GameState::Event::EDITOR:
+			currentState->onLeave();
+			currentState = &editorState;
 			currentState->onEnter();
 			break;
 		}
