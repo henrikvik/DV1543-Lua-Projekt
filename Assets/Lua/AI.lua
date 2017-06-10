@@ -4,10 +4,12 @@ this = Blob:New();
 
 function update(delta)
 	local x, y, r = getClosestBlob();
-
+	
 	if (r > this.radius) then
+		print("ohgod");
 		--moveAway(x, y, delta);
 	else
+		print("isfine");
 		--moveTo(x, y, delta);
 	end	
 end
@@ -16,7 +18,7 @@ function onCollision(otherRadius, distance)
 	if (otherRadius > this.radius) then
 		local difference = (otherRadius + this.radius) - distance;
 		this.radius = this.radius - difference;
-
+		print("help");
 		if (this.radius < 0) then
 			addBlob(
 				{ r = 0, g = 255, b = 0}, 
