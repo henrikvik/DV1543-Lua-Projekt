@@ -6,10 +6,10 @@ function update(delta)
 	local x, y, r = getClosestBlob();
 	
 	if (r > this.radius) then
-		print("ohgod");
-		--moveAway(x, y, delta);
+		--print("ohgod");
+		moveAway(x, y, delta);
 	else
-		print("isfine");
+		--print("isfine");
 		--moveTo(x, y, delta);
 	end	
 end
@@ -39,6 +39,7 @@ function moveTo(x, y, delta)
 end
 
 function moveAway(x, y, delta)
+	print("moveAway");
 	local danger = Vector:New({x = x, y = y});
 	local dir = this.position - danger;
 	dir:Normalize();
