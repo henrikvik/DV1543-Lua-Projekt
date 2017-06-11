@@ -22,6 +22,6 @@ end
 --## Member Function ##--
 
 function Blob:Move(x, y)
-	self.position.x = self.position.x + x * self.moveSpeed;
-	self.position.y = self.position.y + y * self.moveSpeed;
+	self.position.x = self.position.x + x;
+	self.position.y = self.position.y + y;
 end
