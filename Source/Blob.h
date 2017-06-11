@@ -7,7 +7,7 @@
 class Blob : public sf::Drawable
 {
 public:
-	Blob(float lifeSpan, float growthRate, float moveSpeed, int colorRed, int colorGreen, int colorBlue, float radius, float x, float y, const std::string & script);
+	Blob(float lifeSpan, float moveSpeed, int colorRed, int colorGreen, int colorBlue, float radius, float x, float y, const std::string & script);
 	virtual ~Blob();
 
 	virtual void update(float delta);

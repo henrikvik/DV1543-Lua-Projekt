@@ -3,7 +3,6 @@ dofile("Assets/Lua/Color.lua");
 
 Blob = { 
 	lifeSpan = 0,
-	growthRate = 0,
 	moveSpeed = 0,
 	radius = 0, 
 	color = Color:New(),

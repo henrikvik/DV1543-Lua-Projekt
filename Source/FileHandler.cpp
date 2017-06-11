@@ -7,7 +7,6 @@ std::vector<Blob*> FileHandler::readFromFile(const char* file)
 	std::vector<Blob*> blobs;
 	
 	float lifeSpan;
-	float growthRate;
 	float moveSpeed;
 	int redColor;
 	int greenColor;
@@ -29,9 +28,8 @@ std::vector<Blob*> FileHandler::readFromFile(const char* file)
 	count.close();
 	in.open(file);
 	for (int i = 0; i < nrOfBlobs; i++)
-	{//lifespan, growthrate, movespeed, red, green, blue, radius, x, y, scrtipt
+	{//lifespan,  movespeed, red, green, blue, radius, x, y, scrtipt
 		in	>> lifeSpan 
-			>> growthRate 
 			>> moveSpeed
 			>> redColor 
 			>> greenColor 
@@ -42,7 +40,7 @@ std::vector<Blob*> FileHandler::readFromFile(const char* file)
 		in.ignore();
 		std::getline(in, script);
 
-		Blob* blob = new Blob(lifeSpan, growthRate, moveSpeed, redColor, greenColor, blueColor, radius, x, y, script);
+		Blob* blob = new Blob(lifeSpan, moveSpeed, redColor, greenColor, blueColor, radius, x, y, script);
 		
 		blobs.push_back(blob);
 	}

@@ -4,7 +4,7 @@
 
 size_t Blob::UID_BASE = 0;
 
-Blob::Blob(float lifeSpan, float growthRate, float moveSpeed, int colorRed, int colorGreen, int colorBlue, float radius, float x, float y, const std::string & script)
+Blob::Blob(float lifeSpan, float moveSpeed, int colorRed, int colorGreen, int colorBlue, float radius, float x, float y, const std::string & script)
 	: uid(UID_BASE++)
 {
 	lua.loadOpenLibs().dofile(script.c_str());
@@ -16,7 +16,6 @@ Blob::Blob(float lifeSpan, float growthRate, float moveSpeed, int colorRed, int 
 
 	lua.getGlobal("this");
 		lua.push(lifeSpan).setField("lifeSpan");
-		lua.push(growthRate).setField("growthRate");
 		lua.push(moveSpeed).setField("moveSpeed");
 		lua.push(radius).setField("radius");
 		lua.getField("position");
@@ -112,7 +111,6 @@ void Blob::draw(sf::RenderTarget & target, sf::RenderStates states) const
 std::string Blob::toString()
 {
 	float lifeSpan;
-	float growthRate;
 	float moveSpeed;
 	int colorRed;
 	int colorGreen;
@@ -123,7 +121,6 @@ std::string Blob::toString()
 
 	lua.getGlobal("this");
 		lua.getField("lifeSpan").pop(lifeSpan);
-		lua.getField("growthRate").pop(growthRate);
 		lua.getField("moveSpeed").pop(moveSpeed);
 		lua.getField("radius").pop(radius);
 		lua.getField("position");
@@ -140,7 +137,6 @@ std::string Blob::toString()
 	std::stringstream string;
 
 	string << lifeSpan << " "
-		<< growthRate << " "
 		<< moveSpeed << " "
 		<< colorRed << " "
 		<< colorGreen << " "
