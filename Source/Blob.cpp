@@ -7,7 +7,7 @@ size_t Blob::UID_BASE = 0;
 Blob::Blob()
 	: Blob(
 		rand() % 10 + 5, 
-		70, 
+		rand() % 20 + 40,
 		rand() % 255, rand() % 255, rand() % 255,
 		rand() % 20 + 40, 
 		rand() % 400 - 200, rand() % 300 - 150, 
@@ -18,9 +18,9 @@ Blob::Blob()
 Blob::Blob(const char * script)
 	: Blob(
 		rand() % 10 + 5,
-		rand() % 20 + 40,
+		80,
 		rand() % 255, rand() % 255, rand() % 255,
-		rand() % 20 + 40,
+		rand() % 20 + 50,
 		0, 0,
 		script)
 {
