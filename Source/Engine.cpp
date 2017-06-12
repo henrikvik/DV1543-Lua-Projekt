@@ -1,12 +1,13 @@
 #include "Engine.h"
 #include <SFML\Window\Event.hpp>
-
+#include "Resources.h"
 Engine::Engine()
 	: menuState(window)
 	, editorState(window)
 {
 	sf::VideoMode mode(800, 600);
 	window.create(mode, "Lua Projekt", sf::Style::Close);
+
 
 	camera.setCenter({ 0,0 });
 	camera.setSize({ 800, 600 });
@@ -45,6 +46,10 @@ void Engine::pollEvents()
 		{
 		case sf::Event::Closed:
 			window.close();
+			break;
+		case sf::Event::MouseWheelMoved:
+			camera.zoom(windowEvent.mouseWheel.delta < 0 ? 1.25f : 0.75f);
+			window.setView(camera);
 			break;
 		}
 	}

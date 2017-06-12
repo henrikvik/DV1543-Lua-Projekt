@@ -7,6 +7,8 @@
 class Blob : public sf::Drawable
 {
 public:
+	Blob();
+	Blob(const char * script);
 	Blob(float lifeSpan, float moveSpeed, int colorRed, int colorGreen, int colorBlue, float radius, float x, float y, const std::string & script);
 	virtual ~Blob();
 

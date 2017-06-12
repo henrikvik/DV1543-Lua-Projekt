@@ -3,10 +3,11 @@
 #include <SFML\Graphics\RenderTarget.hpp>
 #include <SFML\Graphics\RenderStates.hpp>
 #include <SFML\Window\Mouse.hpp>
+#include "Resources.h"
 
-Button::Button(sf::Font & font)
+Button::Button()
 {
-	this->text.setFont(font);
+	this->text.setFont(Resources.Fonts.SegoeUI);
 	callback = nullptr;
 }
 
@@ -58,6 +59,7 @@ void Button::setBoxSize(sf::Vector2f size)
 void Button::setBoxPosition(sf::Vector2f position)
 {
 	box.setPosition(position);
+	text.setPosition(position);
 }
 
 void Button::setCallback(std::function<void(void)> callback)
@@ -84,5 +86,5 @@ void Button::update(sf::Vector2f position, bool click)
 void Button::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(box, states);
-	target.draw(text, sf::RenderStates(box.getTransform()));
+	target.draw(text, states);
 }

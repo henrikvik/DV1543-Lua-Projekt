@@ -2,8 +2,6 @@
 #include <SFML\Graphics\RenderTarget.hpp>
 #include <sstream>
 Increment::Increment(sf::Font & font)
-	: incButton(font)
-	, decButton(font)
 {
 	incButton.setText("+");
 	incButton.setBoxSize({ 50, 50 });

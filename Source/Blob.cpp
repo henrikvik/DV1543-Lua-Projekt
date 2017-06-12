@@ -4,6 +4,28 @@
 
 size_t Blob::UID_BASE = 0;
 
+Blob::Blob()
+	: Blob(
+		rand() % 10 + 5, 
+		rand() % 20 + 40, 
+		rand() % 255, rand() % 255, rand() % 255,
+		rand() % 20 + 40, 
+		rand() % 800, rand() % 600, 
+		"Assets/Lua/AI.lua")
+{
+}
+
+Blob::Blob(const char * script)
+	: Blob(
+		rand() % 10 + 5,
+		rand() % 20 + 40,
+		rand() % 255, rand() % 255, rand() % 255,
+		rand() % 20 + 40,
+		rand() % 800, rand() % 600,
+		script)
+{
+}
+
 Blob::Blob(float lifeSpan, float moveSpeed, int colorRed, int colorGreen, int colorBlue, float radius, float x, float y, const std::string & script)
 	: uid(UID_BASE++)
 {

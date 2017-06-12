@@ -25,6 +25,7 @@
     <ClInclude Include="Source\EditorState.h" />
     <ClInclude Include="Source\Increment.h" />
     <ClInclude Include="Source\BlobEdit.h" />
+    <ClInclude Include="Source\Resources.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Lua\AI.lua" />

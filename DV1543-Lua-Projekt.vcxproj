@@ -35,6 +35,7 @@
     <ClInclude Include="Source\LuaState.h" />
     <ClInclude Include="Source\MenuState.h" />
     <ClInclude Include="Source\PlayState.h" />
+    <ClInclude Include="Source\Resources.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Lua\AI.lua" />

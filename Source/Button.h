@@ -8,7 +8,7 @@
 class Button : public sf::Drawable
 {
 public:
-	Button(sf::Font & font);
+	Button();
 	virtual ~Button();
 
 	void setText(sf::String text);

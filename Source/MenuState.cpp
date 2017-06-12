@@ -4,9 +4,6 @@
 
 MenuState::MenuState(sf::RenderWindow & window)
 	: window(window)
-	, playButton(buttonFont)
-	, editButton(buttonFont)
-	, quitButton(buttonFont)
 {
 	if (!buttonFont.loadFromFile("Assets/segoeui.ttf"))
 		throw;

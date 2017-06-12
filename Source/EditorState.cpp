@@ -5,15 +5,14 @@
 
 EditorState::EditorState(sf::RenderWindow & window)
 	: window(window)
-	, pager(font)
 {
 	font.loadFromFile("Assets/segoeui.ttf");
 
 	{
-		Button * button = new Button(font);
+		Button * button = new Button();
 		button->setText("Back");
 		button->setBoxSize({ 100, 50 });
-		button->setBoxPosition({-325, 250});
+		button->setBoxPosition({ -325, 250 });
 		button->setBoxActiveColor({ 220, 70, 50 });
 		button->setBoxInactiveColor({ 200, 50, 50 });
 		button->setCallback([&] {
@@ -23,7 +22,7 @@ EditorState::EditorState(sf::RenderWindow & window)
 	}
 
 	{
-		Button * button = new Button(font);
+		Button * button = new Button();
 		button->setText("Save");
 		button->setBoxSize({ 100, 50 });
 		button->setBoxPosition({ 325, 250 });
@@ -36,23 +35,20 @@ EditorState::EditorState(sf::RenderWindow & window)
 	}
 
 	{
-		Button * button = new Button(font);
+		Button * button = new Button();
 		button->setText("Add");
 		button->setBoxSize({ 100, 50 });
 		button->setBoxPosition({ 0, 250 });
 		button->setBoxActiveColor({ 70, 50, 220 });
 		button->setBoxInactiveColor({ 50, 50, 200 });
 		button->setCallback([&] {
+			blobs.push_back(new Blob());
+			remakeList = true;
 		});
 		buttons.push_back(button);
 	}
 
-	pager.setIncrement(1);
-	pager.setMaxValue(10);
-	pager.setMinValue(1);
-	pager.setName("Page");
-	pager.setValue(1);
-	pager.setPosition({ 0, 190 });
+	remakeList = false;
 }
 
 EditorState::~EditorState()
@@ -71,8 +67,10 @@ void EditorState::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	{
 		target.draw(*button);
 	}
-
-	target.draw(pager, states);
+	for (BlobEdit * blobEdit: blobEdits)
+	{
+		target.draw(*blobEdit);
+	}
 }
 
 void EditorState::update(float delta)
@@ -92,12 +90,47 @@ void EditorState::update(float delta)
 	{
 		button->update(pos, click);
 	}
-	pager.update(pos, click);
+
+	for (BlobEdit * blobEdit : blobEdits)
+	{
+		blobEdit->update(pos, click);
+	}
+
+
+	if (remakeList) remakeBlobEditList();
 }
 
 void EditorState::onEnter()
 {
 	blobs = FileHandler::readFromFile("Assets/Blobs.txt");
+	remakeBlobEditList();
+}
+
+void EditorState::remakeBlobEditList()
+{
+	remakeList = false;
+	for (BlobEdit * blobEdit : blobEdits)
+	{
+		delete blobEdit;
+	}
+	blobEdits.clear();
+
+	static float offsetX = -190, offsetY = -215;
+	for (int i = 0, size = blobs.size(); i < size; i++)
+	{
+		BlobEdit * blobEdit = new BlobEdit(blobs[i]);
+		blobEdit->setPosition({
+			offsetX + (i % 2) * (350 + 30),
+			offsetY + (i / 2) * 125.0f
+		});
+
+		blobEdit->setCloseButtonCallback([&, i] {
+			blobs.erase(blobs.begin() + i);
+			remakeList = true;
+			
+		});
+		blobEdits.push_back(blobEdit);
+	}
 }
 
 void EditorState::onLeave()
@@ -107,4 +140,9 @@ void EditorState::onLeave()
 		delete blob;
 	}
 	blobs.clear();
+	for (BlobEdit * blobEdit : blobEdits)
+	{
+		delete blobEdit;
+	}
+	blobEdits.clear();
 }

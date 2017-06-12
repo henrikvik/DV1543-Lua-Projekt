@@ -8,7 +8,7 @@ function update(delta)
 	if (r > this.radius) then
 		moveAway(x, y, delta);
 	else
-		--moveTo(x, y, delta);
+		moveTo(x, y, delta);
 	end	
 end
 

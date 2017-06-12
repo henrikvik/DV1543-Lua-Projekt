@@ -50,7 +50,9 @@ void PlayState::update(float delta)
 
 void PlayState::onEnter()
 {
-	addBlobs(FileHandler::readFromFile("Assets/Blobs.txt"));
+	std::vector<Blob*> newBlobs = FileHandler::readFromFile("Assets/Blobs.txt");
+	newBlobs.push_back(new Blob("Assets/Lua/Player.lua"));
+	addBlobs(newBlobs);
 }
 
 void PlayState::onLeave()
