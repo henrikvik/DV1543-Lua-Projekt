@@ -9,8 +9,7 @@ Engine::Engine()
 	window.create(mode, "Lua Projekt", sf::Style::Close);
 
 
-	camera.setCenter({ 0,0 });
-	camera.setSize({ 800, 600 });
+	camera = sf::View(sf::FloatRect(-400, -300, 800, 600));
 
 	window.setView(camera);
 
@@ -51,6 +50,19 @@ void Engine::pollEvents()
 			camera.zoom(windowEvent.mouseWheel.delta < 0 ? 1.25f : 0.75f);
 			window.setView(camera);
 			break;
+		case sf::Event::MouseMoved:
+			static sf::Vector2f lastPos = { 400, 300 };
+			sf::Vector2f currentPos(windowEvent.mouseMove.x, windowEvent.mouseMove.y);
+			sf::Vector2f delta = lastPos - currentPos;
+			lastPos = currentPos;
+
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+			{
+				camera.move(delta);
+				window.setView(camera);
+			}		
+
+			break;
 		}
 	}
 
@@ -66,16 +78,25 @@ void Engine::pollEvents()
 			currentState->onLeave();
 			currentState = &menuState;
 			currentState->onEnter();
+
+			camera = sf::View(sf::FloatRect(-400, -300, 800, 600));
+			window.setView(camera);
 			break;
 		case GameState::Event::PLAY:
 			currentState->onLeave();
 			currentState = &playState;
 			currentState->onEnter();
+
+			camera = sf::View(sf::FloatRect(-400, -300, 800, 600));
+			window.setView(camera);
 			break;
 		case GameState::Event::EDITOR:
 			currentState->onLeave();
 			currentState = &editorState;
 			currentState->onEnter();
+
+			camera = sf::View(sf::FloatRect(-400, -300, 800, 600));
+			window.setView(camera);
 			break;
 		}
 	}

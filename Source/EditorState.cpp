@@ -12,7 +12,7 @@ EditorState::EditorState(sf::RenderWindow & window)
 		Button * button = new Button();
 		button->setText("Back");
 		button->setBoxSize({ 100, 50 });
-		button->setBoxPosition({ -325, 250 });
+		button->setBoxPosition({ -325, -250 });
 		button->setBoxActiveColor({ 220, 70, 50 });
 		button->setBoxInactiveColor({ 200, 50, 50 });
 		button->setCallback([&] {
@@ -25,7 +25,7 @@ EditorState::EditorState(sf::RenderWindow & window)
 		Button * button = new Button();
 		button->setText("Save");
 		button->setBoxSize({ 100, 50 });
-		button->setBoxPosition({ 325, 250 });
+		button->setBoxPosition({ 325, -250 });
 		button->setBoxActiveColor({ 70, 220, 50 });
 		button->setBoxInactiveColor({ 50, 200, 50 });
 		button->setCallback([&] {
@@ -38,7 +38,7 @@ EditorState::EditorState(sf::RenderWindow & window)
 		Button * button = new Button();
 		button->setText("Add");
 		button->setBoxSize({ 100, 50 });
-		button->setBoxPosition({ 0, 250 });
+		button->setBoxPosition({ 0, -250 });
 		button->setBoxActiveColor({ 70, 50, 220 });
 		button->setBoxInactiveColor({ 50, 50, 200 });
 		button->setCallback([&] {
@@ -115,7 +115,7 @@ void EditorState::remakeBlobEditList()
 	}
 	blobEdits.clear();
 
-	static float offsetX = -190, offsetY = -215;
+	static float offsetX = -190, offsetY = -155;
 	for (int i = 0, size = blobs.size(); i < size; i++)
 	{
 		BlobEdit * blobEdit = new BlobEdit(blobs[i]);

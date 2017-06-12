@@ -7,10 +7,10 @@ size_t Blob::UID_BASE = 0;
 Blob::Blob()
 	: Blob(
 		rand() % 10 + 5, 
-		rand() % 20 + 40, 
+		70, 
 		rand() % 255, rand() % 255, rand() % 255,
 		rand() % 20 + 40, 
-		rand() % 800, rand() % 600, 
+		rand() % 400 - 200, rand() % 300 - 150, 
 		"Assets/Lua/AI.lua")
 {
 }
@@ -21,7 +21,7 @@ Blob::Blob(const char * script)
 		rand() % 20 + 40,
 		rand() % 255, rand() % 255, rand() % 255,
 		rand() % 20 + 40,
-		rand() % 800, rand() % 600,
+		0, 0,
 		script)
 {
 }
